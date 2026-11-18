@@ -3,6 +3,7 @@ name: Publicar nuevo cuadro AR
 on:
   push:
     branches:
+      - main
       - integracion/base-unificada
     paths:
       - 'proyectos/pendientes/*.json'
@@ -21,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: integracion/base-unificada
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
           persist-credentials: true
       - uses: actions/setup-node@v4
@@ -59,4 +60,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/visor
           git commit -m "feat: publish new AR experience"
-          git push origin HEAD:integracion/base-unificada
+          git push origin "HEAD:${GITHUB_REF_NAME}"
