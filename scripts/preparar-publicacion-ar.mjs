@@ -101,7 +101,7 @@ const output={
       const a=l.animacion||{},type=['ninguna','flotar','pulso','girar','desplazar','balancear','trayectoria'].includes(a.tipo)?a.tipo:'ninguna';
       return {
         id:layerId,nombre:String(l.nombre||layerId).slice(0,100),imagen:image,
-        ancho:Number(l.ancho),alto:Number(l.alto),x:Number(l.x),y:Number(l.y),z:Number(l.z),
+        ancho:Number(l.ancho),alto:Number(l.alto),x:Number(l.x),y:Number(l.y),z:Number(l.z),opacidad:Number(l.opacidad),
         rotation:Number(l.rotation||0),rotationX:Number.isFinite(Number(l.rotationX))?Number(l.rotationX):0,
         rotationY:Number.isFinite(Number(l.rotationY))?Number(l.rotationY):0,
         pivotX:Math.max(0,Math.min(1,Number.isFinite(Number(l.pivotX))?Number(l.pivotX):.5)),
