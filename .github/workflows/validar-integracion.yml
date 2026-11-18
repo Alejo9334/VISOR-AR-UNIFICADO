@@ -24,5 +24,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validar catálogo, objetivos y capas
+      - name: Comprobar sintaxis de scripts
+        run: |
+          for file in scripts/*.mjs; do node --check "$file"; done
+      - name: Validar lógica del editor y visor
+        run: node scripts/verificar-prototipo-ar.mjs
+      - name: Probar actualizaciones seguras
+        run: node scripts/verificar-actualizacion-ar.mjs
+      - name: Validar catálogo y recursos publicados
         run: node scripts/validar-static-ar.mjs
