@@ -4,7 +4,7 @@ Plataforma central de experiencias AR, editor y visor para clientes.
 
 ## Direcciones
 
-Estas direcciones estarán activas después de habilitar GitHub Pages (ver sección «Activar el sitio»).
+<badge>Publicado en GitHub Pages</badge>
 - Visor de clientes: `https://alejo9334.github.io/VISOR-AR-UNIFICADO/visor/`
 - Editor AR: `https://alejo9334.github.io/VISOR-AR-UNIFICADO/visor/editor.html`
 - Acceso/ayuda del editor: `https://alejo9334.github.io/VISOR-AR-UNIFICADO/visor/login.html`
@@ -23,11 +23,8 @@ El editor trabaja localmente en el navegador. La publicación se realiza subiend
 2. Súbelo a `proyectos/actualizaciones/` en `main`.
 3. Confirma el commit. El flujo verifica el hash de la versión base, actualiza solo el ID solicitado y preserva la imagen de reconocimiento y el archivo `targets.mind`.
 
-## Activar el sitio
-1. Abre Settings → Pages en este repositorio.
-2. En «Build and deployment», selecciona «GitHub Actions» como Source.
-3. Abre Actions → «Publicar Visor AR unificado» → Run workflow, elige `main` y confirma.
-4. Espera a que el despliegue termine en verde. El sitio quedará disponible en las direcciones anteriores.
+## Publicación
+GitHub Pages está habilitado y el último despliegue desde `main` terminó correctamente. Ver [ejecución de publicación](https://github.com/Alejo9334/VISOR-AR-UNIFICADO/actions/runs/44371247832).
 
 ## Seguridad
 - No guardar claves personales, contraseñas ni tokens en archivos públicos.
