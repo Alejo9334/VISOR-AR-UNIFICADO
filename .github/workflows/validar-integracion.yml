@@ -1,0 +1,28 @@
+name: Validar integración AR
+
+on:
+  push:
+    branches:
+      - integracion/base-unificada
+    paths:
+      - public/visor/**
+      - scripts/**
+      - .github/workflows/validar-integracion.yml
+  pull_request:
+    branches:
+      - main
+      - integracion/base-unificada
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validar catálogo, objetivos y capas
+        run: node scripts/validar-static-ar.mjs
