@@ -25,6 +25,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Registrar commit validado
+        run: echo "Validando $GITHUB_SHA"
       - name: Comprobar sintaxis de scripts
         run: |
           for file in scripts/*.mjs; do node --check "$file"; done
