@@ -18,7 +18,7 @@ try{
   const request={
     version:1,
     titulo:'Prueba aislada',
-    cuadros:[{
+    cuadros:[ref,{
       id:'cuadro-prueba-integracion',
       nombre:'Cuadro de prueba',
       relacionAltoAncho:ref.relacionAltoAncho,
@@ -44,7 +44,7 @@ try{
     if(!now||now.imagenObjetivo!==old.imagenObjetivo||now.capas.length!==old.capas.length)
       throw Error('Se alteró una experiencia existente: '+old.id);
   }
-  console.log('Prueba OK: agrega un cuadro nuevo y conserva las experiencias existentes.');
+  console.log('Prueba OK: acepta un proyecto con cuadro preexistente, publica solo el nuevo y conserva los anteriores.');
 }finally{
   fs.rmSync(temp,{recursive:true,force:true});
 }
