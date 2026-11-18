@@ -1,0 +1,4 @@
+Source repository: Alejo9334/Code-fuente
+Source ref: desarrollo/multicuadros-ar-v2
+Source commit: f1b0f660c3a760a78372bff3ff10b1fc31acff15
+Imported at: 2026-11-18T17:55:55Z

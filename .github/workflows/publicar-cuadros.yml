@@ -1,0 +1,62 @@
+name: Publicar nuevo cuadro AR
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'proyectos/pendientes/*.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicar-nuevo-cuadro-ar
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Identificar un único JSON nuevo
+        id: request
+        shell: bash
+        run: |
+          set -euo pipefail
+          PARENT="$(git rev-parse "${GITHUB_SHA}^")"
+          mapfile -t FILES < <(git diff-tree --no-commit-id --name-only -r "$PARENT" "$GITHUB_SHA" | grep -E '^proyectos/pendientes/[a-zA-Z0-9._-]+\.json$' || true)
+          if [[ "${#FILES[@]}" -ne 1 ]]; then echo "Se esperaba exactamente un JSON de publicación." >&2; exit 1; fi
+          test -s "${FILES[0]}"
+          echo "file=${FILES[0]}" >> "$GITHUB_OUTPUT"
+      - name: Preparar experiencia nueva
+        env:
+          REQUEST_FILE: ${{ steps.request.outputs.file }}
+        run: node scripts/preparar-publicacion-ar.mjs "$REQUEST_FILE" --apply --append
+      - name: Instalar herramientas de imágenes y reconocimiento
+        run: npm install --prefix .ar-tools --no-package-lock --no-save mind-ar@1.2.5 sharp@0.34.4
+      - name: Optimizar capas PNG
+        run: |
+          cp scripts/optimizar-imagenes-ar.mjs .ar-tools/optimizar.mjs
+          node .ar-tools/optimizar.mjs
+      - name: Compilar todos los objetivos MindAR
+        run: |
+          cp scripts/compilar-objetivos-ar.mjs .ar-tools/compilar.mjs
+          node .ar-tools/compilar.mjs
+      - name: Validar catálogo y archivos
+        run: node scripts/validar-static-ar.mjs
+      - name: Guardar nueva experiencia
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/visor
+          git commit -m "feat: publish new AR experience"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

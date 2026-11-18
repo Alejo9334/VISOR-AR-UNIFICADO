@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "cuadros": 2,
+  "totalOriginal": 5606880,
+  "totalServido": 1280312,
+  "imagenes": [
+    {
+      "original": "./cuadros/cuadro-mwa975aj-6lp/capa-01-capa-mwa9758a-dxy.png",
+      "usado": "./cuadros/cuadro-mwa975aj-6lp/capa-01-capa-mwa9758a-dxy.optimized.webp",
+      "ancho": 1024,
+      "alto": 1280,
+      "transparencia": true,
+      "bytesOriginal": 95442,
+      "bytesOptimizado": 24672,
+      "ahorroPorcentaje": 74.1,
+      "metodo": "sin pérdida"
+    },
+    {
+      "original": "./cuadros/cuadro-mwa975aj-6lp/capa-02-capa-mwa97591-7g1.png",
+      "usado": "./cuadros/cuadro-mwa975aj-6lp/capa-02-capa-mwa97591-7g1.optimized.webp",
+      "ancho": 1024,
+      "alto": 1280,
+      "transparencia": true,
+      "bytesOriginal": 98210,
+      "bytesOptimizado": 25202,
+      "ahorroPorcentaje": 74.3,
+      "metodo": "sin pérdida"
+    },
+    {
+      "original": "./cuadros/cuadro-mwa975aj-6lp/capa-03-capa-mwa9759t-w1s.png",
+      "usado": "./cuadros/cuadro-mwa975aj-6lp/capa-03-capa-mwa9759t-w1s.optimized.webp",
+      "ancho": 1024,
+      "alto": 1280,
+      "transparencia": true,
+      "bytesOriginal": 94391,
+      "bytesOptimizado": 24484,
+      "ahorroPorcentaje": 74.1,
+      "metodo": "sin pérdida"
+    },
+    {
+      "original": "./cuadros/cuadro-mwa975aj-6lp/capa-04-capa-mwa975ai-1tfv.png",
+      "usado": "./cuadros/cuadro-mwa975aj-6lp/capa-04-capa-mwa975ai-1tfv.optimized.webp",
+      "ancho": 1024,
+      "alto": 1280,
+      "transparencia": true,
+      "bytesOriginal": 161351,
+      "bytesOptimizado": 48354,
+      "ahorroPorcentaje": 70,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-5.png",
+      "usado": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-5.optimized.webp",
+      "ancho": 2200,
+      "alto": 2750,
+      "transparencia": true,
+      "bytesOriginal": 568649,
+      "bytesOptimizado": 169832,
+      "ahorroPorcentaje": 70.1,
+      "metodo": "sin pérdida"
+    },
+    {
+      "original": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-4.png",
+      "usado": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-4.optimized.webp",
+      "ancho": 2200,
+      "alto": 2750,
+      "transparencia": true,
+      "bytesOriginal": 586556,
+      "bytesOptimizado": 152976,
+      "ahorroPorcentaje": 73.9,
+      "metodo": "sin pérdida"
+    },
+    {
+      "original": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-3.png",
+      "usado": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-3.optimized.webp",
+      "ancho": 2200,
+      "alto": 2750,
+      "transparencia": true,
+      "bytesOriginal": 772013,
+      "bytesOptimizado": 184708,
+      "ahorroPorcentaje": 76.1,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-2.png",
+      "usado": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-2.optimized.webp",
+      "ancho": 2200,
+      "alto": 2750,
+      "transparencia": true,
+      "bytesOriginal": 2851065,
+      "bytesOptimizado": 593422,
+      "ahorroPorcentaje": 79.2,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-1.png",
+      "usado": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-1.optimized.webp",
+      "ancho": 2200,
+      "alto": 2750,
+      "transparencia": true,
+      "bytesOriginal": 379203,
+      "bytesOptimizado": 56662,
+      "ahorroPorcentaje": 85.1,
+      "metodo": "calidad 93/100"
+    }
+  ],
+  "ahorroPorcentaje": 77.2
+}
