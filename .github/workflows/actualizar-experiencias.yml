@@ -3,6 +3,7 @@ name: Actualizar experiencia AR existente
 on:
   push:
     branches:
+      - main
       - integracion/base-unificada
     paths:
       - 'proyectos/actualizaciones/*.json'
@@ -21,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: integracion/base-unificada
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
           persist-credentials: true
       - uses: actions/setup-node@v4
@@ -60,4 +61,4 @@ jobs:
           git add public/visor
           git diff --cached --quiet && { echo 'Sin cambios para guardar'; exit 0; }
           git commit -m "feat: update one AR experience"
-          git push origin HEAD:integracion/base-unificada
+          git push origin "HEAD:${GITHUB_REF_NAME}"
