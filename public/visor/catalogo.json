@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "titulo": "Visor-222 · Imágenes AR",
+  "titulo": "Visor-222 · Catálogo AR de cuadros",
   "descripcion": "Catálogo estático validado para Visor-222 Preview",
   "cuadros": [
     {
@@ -306,13 +306,229 @@
         "intensidad": "cinematografica",
         "destello": true
       }
+    },
+    {
+      "id": "cuadro-mwmql5j0-14cd",
+      "nombre": "antartida",
+      "targetIndex": 2,
+      "relacionAltoAncho": 0.75,
+      "imagenObjetivo": "./cuadros/cuadro-mwmql5j0-14cd/referencia.jpg",
+      "espaciadoCapas": 0.048,
+      "parallax": {
+        "activo": false,
+        "intensidad": 0.35
+      },
+      "capas": [
+        {
+          "id": "capa-mwmql3zt-jc0",
+          "nombre": "1",
+          "imagen": "./cuadros/cuadro-mwmql5j0-14cd/capa-01-capa-mwmql3zt-jc0.optimized.webp",
+          "ancho": 1,
+          "alto": 0.75,
+          "x": 0,
+          "y": 0,
+          "z": 0.015,
+          "opacidad": 1,
+          "rotation": 0,
+          "rotationX": 0,
+          "rotationY": 0,
+          "pivotX": 0.5,
+          "pivotY": 0.5,
+          "sombra": {
+            "activo": false,
+            "desenfoque": 12,
+            "x": 0,
+            "y": 8,
+            "opacidad": 35
+          },
+          "baseAncho": 1,
+          "baseAlto": 0.75,
+          "escalaUniforme": 1,
+          "escalaX": 1,
+          "escalaY": 1,
+          "separacionZ": 0,
+          "visible": true,
+          "animacion": {
+            "tipo": "balancear",
+            "amplitud": 0,
+            "duracionMs": 3400,
+            "trayectoria": {
+              "forma": "circulo",
+              "amplitud": 0.35
+            }
+          }
+        },
+        {
+          "id": "capa-mwmql4fh-1opa",
+          "nombre": "2",
+          "imagen": "./cuadros/cuadro-mwmql5j0-14cd/capa-02-capa-mwmql4fh-1opa.optimized.webp",
+          "ancho": 1,
+          "alto": 0.75,
+          "x": 0,
+          "y": 0,
+          "z": 0.07,
+          "opacidad": 1,
+          "rotation": 0,
+          "rotationX": 0,
+          "rotationY": 0,
+          "pivotX": 0.5,
+          "pivotY": 0.5,
+          "sombra": {
+            "activo": false,
+            "desenfoque": 12,
+            "x": 0,
+            "y": 8,
+            "opacidad": 35
+          },
+          "baseAncho": 1,
+          "baseAlto": 0.75,
+          "escalaUniforme": 1,
+          "escalaX": 1,
+          "escalaY": 1,
+          "separacionZ": 0,
+          "visible": true,
+          "animacion": {
+            "tipo": "girar",
+            "amplitud": 6,
+            "duracionMs": 1800,
+            "trayectoria": {
+              "forma": "circulo",
+              "amplitud": 0.35
+            }
+          }
+        },
+        {
+          "id": "capa-mwmql4r9-17nq",
+          "nombre": "3",
+          "imagen": "./cuadros/cuadro-mwmql5j0-14cd/capa-03-capa-mwmql4r9-17nq.optimized.webp",
+          "ancho": 1,
+          "alto": 0.75,
+          "x": 0,
+          "y": 0,
+          "z": 0.125,
+          "opacidad": 1,
+          "rotation": 0,
+          "rotationX": 0,
+          "rotationY": 0,
+          "pivotX": 0.5,
+          "pivotY": 0.5,
+          "sombra": {
+            "activo": false,
+            "desenfoque": 12,
+            "x": 0,
+            "y": 8,
+            "opacidad": 35
+          },
+          "baseAncho": 1,
+          "baseAlto": 0.75,
+          "escalaUniforme": 1,
+          "escalaX": 1,
+          "escalaY": 1,
+          "separacionZ": 0,
+          "visible": true,
+          "animacion": {
+            "tipo": "girar",
+            "amplitud": 7,
+            "duracionMs": 2750,
+            "trayectoria": {
+              "forma": "circulo",
+              "amplitud": 0.35
+            }
+          }
+        },
+        {
+          "id": "capa-mwmql556-1tw",
+          "nombre": "4",
+          "imagen": "./cuadros/cuadro-mwmql5j0-14cd/capa-04-capa-mwmql556-1tw.optimized.webp",
+          "ancho": 1,
+          "alto": 0.75,
+          "x": 0,
+          "y": 0,
+          "z": 0.18,
+          "opacidad": 1,
+          "rotation": 0,
+          "rotationX": 0,
+          "rotationY": 0,
+          "pivotX": 0.5,
+          "pivotY": 0.5,
+          "sombra": {
+            "activo": false,
+            "desenfoque": 12,
+            "x": 0,
+            "y": 8,
+            "opacidad": 35
+          },
+          "baseAncho": 1,
+          "baseAlto": 0.75,
+          "escalaUniforme": 1,
+          "escalaX": 1,
+          "escalaY": 1,
+          "separacionZ": 0,
+          "visible": true,
+          "animacion": {
+            "tipo": "desplazar",
+            "amplitud": 0.21,
+            "duracionMs": 2425,
+            "trayectoria": {
+              "forma": "circulo",
+              "amplitud": 0.35
+            }
+          }
+        },
+        {
+          "id": "capa-mwmql5j0-17ok",
+          "nombre": "5",
+          "imagen": "./cuadros/cuadro-mwmql5j0-14cd/capa-05-capa-mwmql5j0-17ok.optimized.webp",
+          "ancho": 1,
+          "alto": 0.75,
+          "x": 0,
+          "y": 0,
+          "z": 0.235,
+          "opacidad": 1,
+          "rotation": 0,
+          "rotationX": 0,
+          "rotationY": 0,
+          "pivotX": 0.5,
+          "pivotY": 0.5,
+          "sombra": {
+            "activo": false,
+            "desenfoque": 12,
+            "x": 0,
+            "y": 8,
+            "opacidad": 35
+          },
+          "baseAncho": 1,
+          "baseAlto": 0.75,
+          "escalaUniforme": 1,
+          "escalaX": 1,
+          "escalaY": 1,
+          "separacionZ": 0,
+          "visible": true,
+          "animacion": {
+            "tipo": "balancear",
+            "amplitud": 10,
+            "duracionMs": 2100,
+            "trayectoria": {
+              "forma": "circulo",
+              "amplitud": 0.35
+            }
+          }
+        }
+      ],
+      "efectoEmergencia": {
+        "activo": true,
+        "duracionMs": 1600,
+        "escalaInicial": 0.62,
+        "intensidad": "cinematografica",
+        "destello": true
+      }
     }
   ],
+  "cacheKey": "6794e77153de3578",
   "archivoMind": "./targets.mind",
   "compilador": {
     "motor": "mind-ar",
     "version": "1.2.5",
-    "cantidadObjetivos": 2
-  },
-  "cacheKey": "677ccc8510acc868"
+    "cantidadObjetivos": 3
+  }
 }

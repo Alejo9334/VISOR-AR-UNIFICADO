@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "cuadros": 2,
-  "totalOriginal": 5606880,
-  "totalServido": 1280312,
+  "cuadros": 3,
+  "totalOriginal": 7469934,
+  "totalServido": 1725880,
   "imagenes": [
     {
       "original": "./cuadros/cuadro-mwa975aj-6lp/capa-01-capa-mwa9758a-dxy.png",
@@ -102,7 +102,62 @@
       "bytesOptimizado": 56662,
       "ahorroPorcentaje": 85.1,
       "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-mwmql5j0-14cd/capa-01-capa-mwmql3zt-jc0.png",
+      "usado": "./cuadros/cuadro-mwmql5j0-14cd/capa-01-capa-mwmql3zt-jc0.optimized.webp",
+      "ancho": 1024,
+      "alto": 768,
+      "transparencia": true,
+      "bytesOriginal": 573472,
+      "bytesOptimizado": 117988,
+      "ahorroPorcentaje": 79.4,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-mwmql5j0-14cd/capa-02-capa-mwmql4fh-1opa.png",
+      "usado": "./cuadros/cuadro-mwmql5j0-14cd/capa-02-capa-mwmql4fh-1opa.optimized.webp",
+      "ancho": 1024,
+      "alto": 768,
+      "transparencia": true,
+      "bytesOriginal": 487685,
+      "bytesOptimizado": 120858,
+      "ahorroPorcentaje": 75.2,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-mwmql5j0-14cd/capa-03-capa-mwmql4r9-17nq.png",
+      "usado": "./cuadros/cuadro-mwmql5j0-14cd/capa-03-capa-mwmql4r9-17nq.optimized.webp",
+      "ancho": 1024,
+      "alto": 768,
+      "transparencia": true,
+      "bytesOriginal": 259147,
+      "bytesOptimizado": 68972,
+      "ahorroPorcentaje": 73.4,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-mwmql5j0-14cd/capa-04-capa-mwmql556-1tw.png",
+      "usado": "./cuadros/cuadro-mwmql5j0-14cd/capa-04-capa-mwmql556-1tw.optimized.webp",
+      "ancho": 1024,
+      "alto": 768,
+      "transparencia": true,
+      "bytesOriginal": 362450,
+      "bytesOptimizado": 99064,
+      "ahorroPorcentaje": 72.7,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-mwmql5j0-14cd/capa-05-capa-mwmql5j0-17ok.png",
+      "usado": "./cuadros/cuadro-mwmql5j0-14cd/capa-05-capa-mwmql5j0-17ok.optimized.webp",
+      "ancho": 1024,
+      "alto": 768,
+      "transparencia": true,
+      "bytesOriginal": 180300,
+      "bytesOptimizado": 38686,
+      "ahorroPorcentaje": 78.5,
+      "metodo": "calidad 93/100"
     }
   ],
-  "ahorroPorcentaje": 77.2
+  "ahorroPorcentaje": 76.9
 }
