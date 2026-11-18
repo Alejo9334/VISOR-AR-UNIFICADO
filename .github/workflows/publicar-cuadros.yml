@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - integracion/base-unificada
     paths:
       - 'proyectos/pendientes/*.json'
 
