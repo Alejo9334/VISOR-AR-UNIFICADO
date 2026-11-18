@@ -42,7 +42,7 @@ jobs:
           REQUEST_FILE: ${{ steps.request.outputs.file }}
         run: node scripts/preparar-publicacion-ar.mjs "$REQUEST_FILE" --apply --append
       - name: Instalar herramientas de imágenes y reconocimiento
-        run: npm install --prefix .ar-tools --no-package-lock --no-save mind-ar@1.2.5 sharp@0.34.4
+        run: npm install --prefix .ar-tools --no-package-lock --no-save mind-ar@1.2.5 sharp@0.34.4 canvas@2.11.2
       - name: Optimizar capas PNG
         run: |
           cp scripts/optimizar-imagenes-ar.mjs .ar-tools/optimizar.mjs
