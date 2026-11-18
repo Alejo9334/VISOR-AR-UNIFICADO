@@ -62,12 +62,23 @@ function decodeAsset(asset,relative,expectedMime){
   }
   return asset;
 }
+// Si el editor exporta un proyecto completo, ignorar experiencias ya publicadas
+// durante la operación --append. Nunca sobrescribir una experiencia existente.
+const currentCatalog = append ? JSON.parse(fs.readFileSync(path.join(SITE,'catalogo.json'),'utf8')) : null;
+if(append && !Array.isArray(currentCatalog.cuadros))throw Error('Catálogo publicado inválido');
+const publishedIds = new Set((currentCatalog?.cuadros||[]).map(art=>slug(art.id)));
+const inputArtworks = append ? input.cuadros.filter(art=>art && art.id && !publishedIds.has(slug(art.id))) : input.cuadros;
+if(append && inputArtworks.length!==1)throw Error(inputArtworks.length===0
+  ? 'Este archivo no contiene un cuadro nuevo. Exporta el cuadro deseado desde el editor.'
+  : 'El archivo contiene varios cuadros nuevos. Publica uno por archivo.');
+if(append && inputArtworks.length!==input.cuadros.length)
+  console.log('Cuadros existentes omitidos: '+input.cuadros.filter(art=>art && art.id && publishedIds.has(slug(art.id))).map(art=>art.id).join(', '));
 const used=new Set();
 const output={
   version:3,
   titulo:String(input.titulo||'Visor-222 · Cuadros AR').slice(0,150),
   descripcion:'Catálogo estático validado para Visor-222 Preview',
-  cuadros:input.cuadros.map((art,index)=>{
+  cuadros:inputArtworks.map((art,index)=>{
     if(!art||!art.id||!art.imagenObjetivo||!Array.isArray(art.capas)||!art.capas.length||art.capas.length>15)
       throw Error('El cuadro '+(index+1)+' requiere referencia y 1-15 capas');
     const id=slug(art.id);if(used.has(id))throw Error('ID de cuadro duplicado: '+id);used.add(id);
@@ -138,7 +149,7 @@ const output={
   })
 };
 if(append){
-  const current=JSON.parse(fs.readFileSync(path.join(SITE,'catalogo.json'),'utf8'));
+  const current=currentCatalog;
   if(!Array.isArray(current.cuadros))throw Error('El catálogo existente no contiene cuadros');
   const existingIds=new Set(current.cuadros.map(art=>art.id));
   const collision=output.cuadros.find(art=>existingIds.has(art.id));
