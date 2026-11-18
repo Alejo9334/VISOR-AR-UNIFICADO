@@ -1,0 +1,45 @@
+name: Crear copia de seguridad del repositorio
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/crear-backup.yml
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código completo
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Preparar ZIP con manifiesto
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/backup/VISOR-AR-UNIFICADO
+          git archive HEAD | tar -x -C /tmp/backup/VISOR-AR-UNIFICADO
+          cat > /tmp/backup/VISOR-AR-UNIFICADO/BACKUP-METADATA.txt <<EOF
+          Repositorio: Alejo9334/VISOR-AR-UNIFICADO
+          Rama: main
+          Commit: $(git rev-parse HEAD)
+          Fecha UTC: $(date -u +%FT%TZ)
+          Incluye: código, visor, editor, recursos, catálogos, scripts y workflows versionados.
+          No incluye: historial .git ni secretos configurados fuera del repositorio.
+          EOF
+          cd /tmp/backup
+          zip -qr /tmp/VISOR-AR-UNIFICADO-backup-main.zip VISOR-AR-UNIFICADO
+          sha256sum /tmp/VISOR-AR-UNIFICADO-backup-main.zip | tee /tmp/VISOR-AR-UNIFICADO-backup-main.zip.sha256
+      - name: Subir ZIP de respaldo
+        uses: actions/upload-artifact@v4
+        with:
+          name: VISOR-AR-UNIFICADO-backup-main
+          path: /tmp/VISOR-AR-UNIFICADO-backup-main.zip
+          if-no-files-found: error
+          retention-days: 90
