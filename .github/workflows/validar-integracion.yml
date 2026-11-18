@@ -33,3 +33,6 @@ jobs:
         run: node scripts/verificar-actualizacion-ar.mjs
       - name: Validar catálogo y recursos publicados
         run: node scripts/validar-static-ar.mjs
+      - name: Confirmar que no queden enlaces de repositorios antiguos
+        run: |
+          ! grep -R -nE 'github.com/Alejo9334/(Code-fuente|Visor-AR|Visor-222)/upload' public/visor
