@@ -1,6 +1,6 @@
 # Visor-222 · Prototipo multimarcador (rama de desarrollo)
 
-Esta versión está en la rama `desarrollo/multicuadros-ar-v2`. **No reemplaza ni publica sobre la rama `main`**.
+Esta aplicación se integró en `Alejo9334/VISOR-AR-UNIFICADO`, rama `main`. El repositorio `Code-fuente` se conserva como respaldo histórico; la publicación oficial se realiza desde este repositorio unificado.
 
 ## Primer cuadro del usuario: Minecraft Creeper Graffiti
 
