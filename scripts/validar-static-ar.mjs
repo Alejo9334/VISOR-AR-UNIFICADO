@@ -62,8 +62,8 @@ for(const layer of layers)assert.ok(reportUsed.has(layer),'Falta registro de opt
 for(const name of ['index.html','editor.html','login.html','admin-auth.js','auth-config.js','targets.mind','catalogo.json'])
   assert.ok(fs.existsSync(path.join(root,name)),'Falta archivo esencial: '+name);
 const editor=fs.readFileSync(path.join(root,'editor.html'),'utf8');
-assert.ok(editor.includes('Alejo9334/VISOR-AR-UNIFICADO/upload/integracion/base-unificada/proyectos/pendientes'),'El botón de alta aún apunta al repositorio anterior');
-assert.ok(editor.includes('Alejo9334/VISOR-AR-UNIFICADO/upload/integracion/base-unificada/proyectos/actualizaciones'),'El botón de actualización aún apunta al repositorio anterior');
+assert.ok(editor.includes('Alejo9334/VISOR-AR-UNIFICADO/upload/main/proyectos/pendientes'),'El botón de alta aún apunta al repositorio anterior');
+assert.ok(editor.includes('Alejo9334/VISOR-AR-UNIFICADO/upload/main/proyectos/actualizaciones'),'El botón de actualización aún apunta al repositorio anterior');
 assert.ok(!editor.includes('Alejo9334/Code-fuente/upload')&&!editor.includes('Alejo9334/Visor-222/upload'),'El editor conserva enlaces a repositorios anteriores');
 
 const creeper=catalog.cuadros.find(x=>x.id==='cuadro-creeper-001');
