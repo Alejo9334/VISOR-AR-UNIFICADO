@@ -27,7 +27,7 @@ try{
         id:'capa-prueba',
         nombre:'Capa de prueba',
         imagen:originalLayer.original,
-        ancho:1,alto:ref.relacionAltoAncho,x:0,y:0,z:.1,opacidad:1,visible:true,
+        ancho:1,alto:ref.relacionAltoAncho,x:0,y:0,z:.1,opacidad:.65,visible:true,
         animacion:{tipo:'ninguna',amplitud:0,duracionMs:2000}
       }]
     }]
@@ -39,6 +39,8 @@ try{
   const after=JSON.parse(fs.readFileSync(path.join(site,'catalogo.json'),'utf8'));
   if(after.cuadros.length!==before.cuadros.length+1)throw Error('No se agregó exactamente una experiencia');
   if(!after.cuadros.some(x=>x.id==='cuadro-prueba-integracion'))throw Error('No aparece el ID nuevo');
+  const added=after.cuadros.find(x=>x.id==='cuadro-prueba-integracion');
+  if(added.capas[0].opacidad!==.65)throw Error('La publicación perdió el valor de opacidad de la capa nueva');
   for(const old of before.cuadros){
     const now=after.cuadros.find(x=>x.id===old.id);
     if(!now||now.imagenObjetivo!==old.imagenObjetivo||now.capas.length!==old.capas.length)
