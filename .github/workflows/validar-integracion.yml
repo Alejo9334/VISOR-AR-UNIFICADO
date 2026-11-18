@@ -31,6 +31,8 @@ jobs:
         run: node scripts/verificar-prototipo-ar.mjs
       - name: Probar actualizaciones seguras
         run: node scripts/verificar-actualizacion-ar.mjs
+      - name: Probar publicación de cuadros nuevos
+        run: node scripts/verificar-publicacion-ar.mjs
       - name: Validar catálogo y recursos publicados
         run: node scripts/validar-static-ar.mjs
       - name: Confirmar que no queden enlaces de repositorios antiguos
