@@ -28,4 +28,4 @@ El editor trabaja localmente en el navegador. La publicación se realiza subiend
 - Las ramas originales de Code-fuente y Visor-AR se conservan como respaldo durante la migración.
 
 ## Desarrollo
-La rama de integración actual es `main`. No fusionar ni eliminar repositorios originales hasta validar la cámara, el reconocimiento, las capas, las animaciones, el editor y las publicaciones en dispositivos reales.
+La rama de producción es `main`; la rama de integración paralela es `integracion/base-unificada`. No fusionar ni eliminar repositorios originales hasta validar la cámara, el reconocimiento, las capas, las animaciones, el editor y las publicaciones en dispositivos reales.
