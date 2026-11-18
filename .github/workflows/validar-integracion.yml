@@ -9,6 +9,9 @@ on:
       - public/visor/**
       - scripts/**
       - .github/workflows/validar-integracion.yml
+      - .github/workflows/actualizar-experiencias.yml
+      - .github/workflows/publicar-cuadros.yml
+      - .github/workflows/publicar-pages.yml
   pull_request:
     branches:
       - main
