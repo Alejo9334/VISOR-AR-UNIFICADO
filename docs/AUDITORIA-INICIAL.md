@@ -39,3 +39,14 @@ Fecha: 2026-11-18
 
 ## Estado de cambios
 Esta auditoría solo creó documentación en la rama nueva integracion/base-unificada. No se modificaron Code-fuente, Visor-AR ni sus ramas.
+
+## Revisión adicional de seguridad y autenticación
+- `.env.example` del código fuente contiene solo marcadores de posición para GEMINI_API_KEY y APP_URL; no se observó una clave real en ese archivo.
+- `public/prototipo-ar/auth-config.js` tiene URL y anon key de Supabase vacías.
+- `admin-auth.js` comprueba el JWT con Supabase Auth y consulta la tabla `visor222_admins`; también utiliza `visor222_admin_projects` para guardar/cargar proyectos.
+- La autenticación administrativa no está lista para operar hasta configurar Supabase y verificar las políticas RLS de ambas tablas. La anon/publishable key puede ser pública, pero nunca debe copiarse una service_role key al frontend.
+- El editor no debe considerarse protegido hasta verificar login, membresía administrativa, RLS y acceso directo a los endpoints/datos.
+- La carpeta del prototipo contiene HTML estático y recursos que dependen de CDN externos (A-Frame/MindAR); planear pruebas de disponibilidad, CSP y versiones fijadas.
+
+## Decisión de integración
+Por la selección del usuario, el editor principal será el editor AR `public/prototipo-ar/editor.html` junto con su login y utilidades necesarias. El editor React 3D de `src/App.tsx` queda fuera de la primera migración para evitar duplicar funciones y ampliar el alcance sin necesidad. El runtime `public/prototipo-ar/index.html` se conserva como visor inicial.
