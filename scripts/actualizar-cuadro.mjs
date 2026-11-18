@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const file=process.argv[2],site=process.argv[3]||'public/visor';
 if(!file||!/^proyectos\/actualizaciones\/[a-zA-Z0-9._-]+\.json$/.test(file))throw Error('La solicitud debe estar en proyectos/actualizaciones/');
-if(site!=='public/visor')throw Error('Ruta de sitio no permitida');
+if(!['public','public/visor'].includes(site))throw Error('Ruta de sitio no permitida');
 const base=path.join(ROOT,site);
 const source=path.join(ROOT,file);
 if(!fs.statSync(source).isFile()||fs.statSync(source).size>24*1024*1024)throw Error('El archivo de actualización supera 24 MB');
