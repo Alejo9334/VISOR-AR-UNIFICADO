@@ -3,6 +3,7 @@ name: Validar integración AR
 on:
   push:
     branches:
+      - main
       - integracion/base-unificada
     paths:
       - public/visor/**
