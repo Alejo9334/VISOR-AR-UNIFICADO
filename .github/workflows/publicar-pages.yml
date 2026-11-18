@@ -3,7 +3,6 @@ name: Publicar Visor AR unificado
 on:
   push:
     branches:
-      - integracion/base-unificada
       - main
     paths:
       - public/**
