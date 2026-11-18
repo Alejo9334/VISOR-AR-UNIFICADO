@@ -34,14 +34,10 @@ Fecha: 2026-11-18
 
 Última validación completa: https://github.com/Alejo9334/VISOR-AR-UNIFICADO/actions/runs/44369870927
 
-## Bloqueo externo pendiente
-GitHub Pages no está habilitado para este repositorio. El workflow no puede crear el sitio porque la integración GitHub conectada no dispone de permiso de administración para activar Pages. El repositorio debe habilitarse manualmente:
+## Publicación web
+GitHub Pages ya está habilitado. El despliegue manual del 2026-11-18 terminó correctamente (build y deploy en verde): https://github.com/Alejo9334/VISOR-AR-UNIFICADO/actions/runs/44371247832
 
-1. Settings → Pages.
-2. Build and deployment → Source → GitHub Actions.
-3. Actions → Publicar Visor AR unificado → Run workflow → rama `main`.
-
-Después de activar Pages, el sitio será:
+Direcciones publicadas:
 - `https://alejo9334.github.io/VISOR-AR-UNIFICADO/`
 - Visor: `https://alejo9334.github.io/VISOR-AR-UNIFICADO/visor/`
 - Editor: `https://alejo9334.github.io/VISOR-AR-UNIFICADO/editor/`
@@ -51,4 +47,4 @@ El editor actual funciona localmente en el navegador y exporta JSON. La publicac
 Supabase permanece sin configurar intencionalmente; no se requiere para el flujo local de exportación y publicación por GitHub. Si se desea guardar proyectos en nube con autenticación, habrá que configurar Supabase y sus políticas RLS antes de habilitarlo.
 
 ## Repositorios originales
-`Code-fuente` y `Visor-AR` siguen intactos. No eliminarlos hasta que Pages esté publicado y se prueben cámara, reconocimiento y animaciones en un teléfono real.
+`Code-fuente` y `Visor-AR` siguen intactos. No eliminarlos hasta que se prueben cámara, reconocimiento y animaciones en un teléfono real.
