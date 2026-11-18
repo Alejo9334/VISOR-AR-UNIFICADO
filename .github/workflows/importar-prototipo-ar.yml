@@ -1,0 +1,77 @@
+name: Importar prototipo AR desde Code-fuente
+
+on:
+  push:
+    branches:
+      - integracion/base-unificada
+    paths:
+      - .github/workflows/importar-prototipo-ar.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-prototipo-ar
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio nuevo
+        uses: actions/checkout@v4
+        with:
+          ref: integracion/base-unificada
+          path: destino
+          persist-credentials: true
+
+      - name: Descargar fuente original sin modificarla
+        uses: actions/checkout@v4
+        with:
+          repository: Alejo9334/Code-fuente
+          ref: desarrollo/multicuadros-ar-v2
+          path: fuente
+          persist-credentials: false
+
+      - name: Copiar prototipo AR y scripts de mantenimiento
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p destino/migration/reference
+          cp -a fuente/public/prototipo-ar destino/migration/reference/
+          mkdir -p destino/migration/reference/scripts
+          cp -a fuente/scripts/. destino/migration/reference/scripts/
+          cp fuente/package.json destino/migration/reference/package.json
+          cp fuente/vite.config.ts destino/migration/reference/vite.config.ts
+          cp fuente/tsconfig.json destino/migration/reference/tsconfig.json
+          cp fuente/index.html destino/migration/reference/index.html
+          printf '%s\n' "Source repository: Alejo9334/Code-fuente" "Source ref: desarrollo/multicuadros-ar-v2" "Source commit: $(git -C fuente rev-parse HEAD)" "Imported at: $(date -u +%FT%TZ)" > destino/migration/reference/IMPORT-METADATA.txt
+
+      - name: Verificar archivos esenciales
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s destino/migration/reference/prototipo-ar/index.html
+          test -s destino/migration/reference/prototipo-ar/editor.html
+          test -s destino/migration/reference/prototipo-ar/catalogo.json
+          test -s destino/migration/reference/prototipo-ar/targets.mind
+          test -s destino/migration/reference/prototipo-ar/admin-auth.js
+          test -s destino/migration/reference/prototipo-ar/login.html
+          echo "Essential AR files present"
+          find destino/migration/reference/prototipo-ar -type f | wc -l
+          du -sh destino/migration/reference/prototipo-ar
+
+      - name: Guardar importación en rama de integración
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd destino
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add migration/reference
+          if git diff --cached --quiet; then
+            echo "No changes to import"
+            exit 0
+          fi
+          git commit -m "chore: import AR prototype and assets from Code-fuente"
+          git push origin HEAD:integracion/base-unificada
