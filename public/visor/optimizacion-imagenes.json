@@ -1,64 +1,9 @@
 {
   "version": 1,
   "cuadros": 2,
-  "totalOriginal": 4524908,
-  "totalServido": 1276854,
+  "totalOriginal": 5606880,
+  "totalServido": 1280312,
   "imagenes": [
-    {
-      "original": "./capa-5.png.png",
-      "usado": "./capa-5.png.optimized.webp",
-      "ancho": 2200,
-      "alto": 2750,
-      "transparencia": true,
-      "bytesOriginal": 363732,
-      "bytesOptimizado": 170142,
-      "ahorroPorcentaje": 53.2,
-      "metodo": "sin pérdida"
-    },
-    {
-      "original": "./capa-4.png.png",
-      "usado": "./capa-4.png.optimized.webp",
-      "ancho": 2200,
-      "alto": 2750,
-      "transparencia": true,
-      "bytesOriginal": 342064,
-      "bytesOptimizado": 152750,
-      "ahorroPorcentaje": 55.3,
-      "metodo": "sin pérdida"
-    },
-    {
-      "original": "./capa-3.png.png",
-      "usado": "./capa-3.png.optimized.webp",
-      "ancho": 2200,
-      "alto": 2750,
-      "transparencia": true,
-      "bytesOriginal": 377163,
-      "bytesOptimizado": 180230,
-      "ahorroPorcentaje": 52.2,
-      "metodo": "calidad 93/100"
-    },
-    {
-      "original": "./capa-2.png.png",
-      "usado": "./capa-2.png.optimized.webp",
-      "ancho": 2200,
-      "alto": 2750,
-      "transparencia": true,
-      "bytesOriginal": 2801899,
-      "bytesOptimizado": 594540,
-      "ahorroPorcentaje": 78.8,
-      "metodo": "calidad 93/100"
-    },
-    {
-      "original": "./capa-1.png.png",
-      "usado": "./capa-1.png.optimized.webp",
-      "ancho": 2200,
-      "alto": 2750,
-      "transparencia": true,
-      "bytesOriginal": 190656,
-      "bytesOptimizado": 56480,
-      "ahorroPorcentaje": 70.4,
-      "metodo": "calidad 93/100"
-    },
     {
       "original": "./cuadros/cuadro-mwa975aj-6lp/capa-01-capa-mwa9758a-dxy.png",
       "usado": "./cuadros/cuadro-mwa975aj-6lp/capa-01-capa-mwa9758a-dxy.optimized.webp",
@@ -102,7 +47,62 @@
       "bytesOptimizado": 48354,
       "ahorroPorcentaje": 70,
       "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-5.png",
+      "usado": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-5.optimized.webp",
+      "ancho": 2200,
+      "alto": 2750,
+      "transparencia": true,
+      "bytesOriginal": 568649,
+      "bytesOptimizado": 169832,
+      "ahorroPorcentaje": 70.1,
+      "metodo": "sin pérdida"
+    },
+    {
+      "original": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-4.png",
+      "usado": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-4.optimized.webp",
+      "ancho": 2200,
+      "alto": 2750,
+      "transparencia": true,
+      "bytesOriginal": 586556,
+      "bytesOptimizado": 152976,
+      "ahorroPorcentaje": 73.9,
+      "metodo": "sin pérdida"
+    },
+    {
+      "original": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-3.png",
+      "usado": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-3.optimized.webp",
+      "ancho": 2200,
+      "alto": 2750,
+      "transparencia": true,
+      "bytesOriginal": 772013,
+      "bytesOptimizado": 184708,
+      "ahorroPorcentaje": 76.1,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-2.png",
+      "usado": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-2.optimized.webp",
+      "ancho": 2200,
+      "alto": 2750,
+      "transparencia": true,
+      "bytesOriginal": 2851065,
+      "bytesOptimizado": 593422,
+      "ahorroPorcentaje": 79.2,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-1.png",
+      "usado": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-1.optimized.webp",
+      "ancho": 2200,
+      "alto": 2750,
+      "transparencia": true,
+      "bytesOriginal": 379203,
+      "bytesOptimizado": 56662,
+      "ahorroPorcentaje": 85.1,
+      "metodo": "calidad 93/100"
     }
   ],
-  "ahorroPorcentaje": 71.8
+  "ahorroPorcentaje": 77.2
 }

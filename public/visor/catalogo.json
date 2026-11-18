@@ -13,7 +13,7 @@
         {
           "id": "capa-5",
           "nombre": "Salpicaduras amarillas",
-          "imagen": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-5.png",
+          "imagen": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-5.optimized.webp",
           "ancho": 1.17,
           "alto": 1.19895709518,
           "x": -0.025,
@@ -52,7 +52,7 @@
         {
           "id": "capa-4",
           "nombre": "Graffiti y símbolos",
-          "imagen": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-4.png",
+          "imagen": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-4.optimized.webp",
           "ancho": 1,
           "alto": 1.2496947,
           "x": 0,
@@ -91,7 +91,7 @@
         {
           "id": "capa-3",
           "nombre": "Game Over",
-          "imagen": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-3.png",
+          "imagen": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-3.optimized.webp",
           "ancho": 1,
           "alto": 1.2496947,
           "x": 0,
@@ -130,7 +130,7 @@
         {
           "id": "capa-2",
           "nombre": "Creeper y TNT",
-          "imagen": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-2.png",
+          "imagen": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-2.optimized.webp",
           "ancho": 1,
           "alto": 1.2496947,
           "x": 0,
@@ -169,7 +169,7 @@
         {
           "id": "capa-1",
           "nombre": "Logo Minecraft",
-          "imagen": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-1.png",
+          "imagen": "./cuadros/cuadro-creeper-001/actualizaciones/2adb71eaee6a86-capa-1.optimized.webp",
           "ancho": 1.47,
           "alto": 1.837051209,
           "x": 0,
