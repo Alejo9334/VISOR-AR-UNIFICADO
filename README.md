@@ -4,7 +4,7 @@ Plataforma central de experiencias AR, editor y visor para clientes.
 
 ## Direcciones
 
-<badge>Publicado en GitHub Pages</badge>
+**Publicado en GitHub Pages.**
 - Visor de clientes: `https://alejo9334.github.io/VISOR-AR-UNIFICADO/visor/`
 - Editor AR: `https://alejo9334.github.io/VISOR-AR-UNIFICADO/visor/editor.html`
 - Acceso/ayuda del editor: `https://alejo9334.github.io/VISOR-AR-UNIFICADO/visor/login.html`
