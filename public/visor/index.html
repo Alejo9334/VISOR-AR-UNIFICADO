@@ -373,7 +373,7 @@
       'device-orientation-permission-ui': 'enabled: false',
       renderer: 'colorManagement: true; alpha: true; antialias: true',
       'mindar-image': 'imageTargetSrc: ' + new URL(targetSrc, location.href).href +
-        '; autoStart: false; uiLoading: no; uiScanning: no; uiError: no; maxTrack: 1; filterMinCF: 0.01; filterBeta: 15; warmupTolerance: 5; missTolerance: 16'
+        '; autoStart: false; uiLoading: no; uiScanning: no; uiError: no; maxTrack: 1; filterMinCF: 0.01; filterBeta: 0.2; warmupTolerance: 6; missTolerance: 18'
     });
     scene.style.cssText='position:absolute; inset:0; width:100%; height:100%;';
     var collections = new Map();
@@ -483,7 +483,7 @@
           var t=Math.min(1,elapsed/perLayerDuration);
           if(t<1)complete=false;
           // Ease-out con un pequeño rebote para dar sensación de salida física.
-          var c1=1.18,c3=c1+1;
+          var c1=.36,c3=c1+1;
           var ease=1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);
           var base=wrapper.basePosition||{x:0,y:0,z:-.055};
           var depth=wrapper.depthFactor||0;
@@ -528,10 +528,19 @@
     }
     data.cuadros.forEach(function(art) {
       var target=element('a-entity', {'mindar-image-target': 'targetIndex: ' + art.targetIndex});
-      var group={art:art,textures:[],wrappers:[],promise:null,loaded:false,sequence:0,frame:0};
+      var group={art:art,textures:[],wrappers:[],promise:null,loaded:false,sequence:0,frame:0,lostTimer:0};
       collections.set(art.id,group);
       artworkGroups.push(group);
       target.addEventListener('targetFound', function () {
+        // Una pérdida de seguimiento muy breve no debe reiniciar la secuencia AR.
+        if(group.lostTimer){
+          clearTimeout(group.lostTimer);
+          group.lostTimer=0;
+          tracked.add(art.id);
+          say('Seguimiento recuperado: '+art.nombre,'Imagen reconocida');
+          return;
+        }
+        if(tracked.has(art.id))return;
         tracked.add(art.id);
         document.body.classList.add('detected');
         if(emergenceSettings(art).flash)pulseRecognition();
@@ -552,12 +561,17 @@
         }
       });
       target.addEventListener('targetLost', function () {
-        resetReveal(group);
-        tracked.delete(art.id);
-        if (!tracked.size) {
-          document.body.classList.remove('detected');
-          say('Mueve suavemente la cámara hasta encontrar un cuadro registrado.', 'Buscando cuadro');
-        }
+        if(group.lostTimer||!tracked.has(art.id))return;
+        // Los microcortes del seguimiento no deben reiniciar cada animación.
+        group.lostTimer=setTimeout(function(){
+          group.lostTimer=0;
+          resetReveal(group);
+          tracked.delete(art.id);
+          if (!tracked.size) {
+            document.body.classList.remove('detected');
+            say('Mueve suavemente la cámara hasta encontrar un cuadro registrado.', 'Buscando cuadro');
+          }
+        },650);
       });
       art.capas.forEach(function (layer,layerIndex) {
         if(layer.visible===false)return;
@@ -668,6 +682,7 @@
     catch(err) { console.error(err); }
     tracked.clear();
     artworkGroups.forEach(function(group){
+      if(group.lostTimer){clearTimeout(group.lostTimer);group.lostTimer=0;}
       group.sequence++;
       if(group.frame)cancelAnimationFrame(group.frame);
       group.frame=0;
@@ -686,7 +701,11 @@
 
   startButton.addEventListener('click', start);
   stopButton.addEventListener('click', stop);
-  window.addEventListener('pagehide', function () { if(scene && scene.systems['mindar-image-system']) scene.systems['mindar-image-system'].stop(); if(generatedMindUrl) URL.revokeObjectURL(generatedMindUrl); });
+  window.addEventListener('pagehide', function () {
+    artworkGroups.forEach(function(group){if(group.lostTimer){clearTimeout(group.lostTimer);group.lostTimer=0;}});
+    if(scene && scene.systems['mindar-image-system']) scene.systems['mindar-image-system'].stop();
+    if(generatedMindUrl) URL.revokeObjectURL(generatedMindUrl);
+  });
 
   // El QR lleva únicamente los parámetros de capa. Los PNG siempre se
   // cargan de los archivos ya publicados; no se transmiten imágenes privadas.
