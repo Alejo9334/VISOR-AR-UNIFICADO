@@ -41,6 +41,8 @@ jobs:
         run: node scripts/verificar-publicacion-ar.mjs
       - name: Verificar interruptores y orden de capas
         run: node scripts/verificar-controles-capas.mjs
+      - name: Comprobar estabilidad y amplitud de efectos AR
+        run: node scripts/verificar-estabilidad-ar.mjs
       - name: Validar catálogo y recursos publicados
         run: node scripts/validar-static-ar.mjs
       - name: Confirmar que no queden enlaces de repositorios antiguos
