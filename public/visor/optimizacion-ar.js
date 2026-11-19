@@ -5,17 +5,17 @@
     estable:{
       label:'Máxima estabilidad',motionGain:.72,entranceGain:.82,
       description:'Movimientos discretos y seguimiento más suave.',
-      camera:{filterMinCF:.006,filterBeta:9,warmupTolerance:5,missTolerance:20}
+      camera:{filterMinCF:.006,filterBeta:.12,warmupTolerance:6,missTolerance:22}
     },
     equilibrado:{
       label:'Equilibrado 2.5D',motionGain:1,entranceGain:1,
       description:'Estabilidad del visor actual con animaciones claramente visibles.',
-      camera:{filterMinCF:.01,filterBeta:15,warmupTolerance:5,missTolerance:16}
+      camera:{filterMinCF:.01,filterBeta:.2,warmupTolerance:6,missTolerance:18}
     },
     cinematografico:{
       label:'Cinematográfico',motionGain:1.28,entranceGain:1.16,
       description:'Movimiento y aparición más destacados sin empeorar la configuración base de seguimiento.',
-      camera:{filterMinCF:.01,filterBeta:15,warmupTolerance:5,missTolerance:16}
+      camera:{filterMinCF:.01,filterBeta:.2,warmupTolerance:6,missTolerance:18}
     }
   };
   var amplitudes={
