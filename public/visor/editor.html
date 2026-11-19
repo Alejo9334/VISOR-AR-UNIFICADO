@@ -792,14 +792,23 @@ dialog h2{font-size:21px;margin:0 0 8px}
         if(!valid||Number(layer.ancho)<=0||Number(layer.alto)<=0||Math.abs(Number(layer.x))>1||
           Math.abs(Number(layer.y))>1||Number(layer.z)<0||Number(layer.z)>1||Number(layer.opacidad)<0||Number(layer.opacidad)>1)
           throw Error('Revisa dimensiones, posición y opacidad de '+layer.nombre+'.');
+        var shadow=layer.sombra||{},trajectory=animation.trayectoria||{};
         layers.push({id:layerId,nombre:layer.nombre||layerId,imagen:png,
           ancho:Number(layer.ancho),alto:Number(layer.alto),x:Number(layer.x),y:Number(layer.y),
-          z:Number(layer.z),rotation:Number(layer.rotation||0),opacidad:Number(layer.opacidad),
-          visible:layer.visible!==false,separacionZ:Number(layer.separacionZ||0),
+          z:Number(layer.z),rotation:Number(layer.rotation||0),
+          rotationX:Number(layer.rotationX||0),rotationY:Number(layer.rotationY||0),
+          rotacion3DActiva:layer.rotacion3DActiva!==false,
+          pivotX:safeNumber(layer.pivotX,.5),pivotY:safeNumber(layer.pivotY,.5),
+          sombra:{activo:shadow.activo===true,desenfoque:safeNumber(shadow.desenfoque,12),
+            x:safeNumber(shadow.x,0),y:safeNumber(shadow.y,8),opacidad:safeNumber(shadow.opacidad,35)},
+          opacidad:Number(layer.opacidad),visible:layer.visible!==false,separacionZ:Number(layer.separacionZ||0),
           baseAncho:Number(layer.baseAncho||layer.ancho),baseAlto:Number(layer.baseAlto||layer.alto),
           escalaUniforme:Number(layer.escalaUniforme||1),escalaX:Number(layer.escalaX||1),escalaY:Number(layer.escalaY||1),
-          animacion:{tipo:['ninguna','flotar','pulso','girar','desplazar','balancear'].includes(animation.tipo)?animation.tipo:'ninguna',
-          amplitud:Number(animation.amplitud||0),duracionMs:Number(animation.duracionMs||2000)}});
+          animacion:{activo:animation.activo!==false,
+            tipo:['ninguna','flotar','pulso','girar','desplazar','balancear','trayectoria'].includes(animation.tipo)?animation.tipo:'ninguna',
+            amplitud:Number(animation.amplitud||0),duracionMs:Number(animation.duracionMs||2000),
+            trayectoria:{forma:['circulo','ocho','arco'].includes(trajectory.forma)?trajectory.forma:'circulo',
+              amplitud:safeNumber(trajectory.amplitud,.35)}}});
       }
       var payload={version:2,titulo:'Visor-222 · Imágenes AR',cuadros:[{
         id:id,nombre:art.nombre||id,targetIndex:0,relacionAltoAncho:ratio,imagenObjetivo:image,
@@ -900,10 +909,10 @@ dialog h2{font-size:21px;margin:0 0 8px}
     var shapes={circulo:0,ocho:1,arco:2};
     var rows=art.capas.map(function(l){
       var a=l.animacion||{},path=a.trayectoria||{},shadow=l.sombra||{};
-      return [l.id,compact(l.x),compact(l.y),compact(l.z),compact(l.ancho),compact(l.alto),compact(l.rotation),
-        compact(l.opacidad),l.visible===false?0:1,types[a.tipo]===undefined?0:types[a.tipo],
+      return [l.id,compact(l.x),compact(l.y),compact(l.z),compact(l.ancho),compact(l.alto),l.rotacion3DActiva===false?0:compact(l.rotation),
+        compact(l.opacidad),l.visible===false?0:1,a.activo===false?0:(types[a.tipo]===undefined?0:types[a.tipo]),
         compact(a.amplitud),Math.round(safeNumber(a.duracionMs,2000)),compact(safeNumber(l.separacionZ,0)),
-        compact(safeNumber(l.pivotX,.5)),compact(safeNumber(l.pivotY,.5)),compact(safeNumber(l.rotationX,0)),compact(safeNumber(l.rotationY,0)),
+        compact(safeNumber(l.pivotX,.5)),compact(safeNumber(l.pivotY,.5)),l.rotacion3DActiva===false?0:compact(safeNumber(l.rotationX,0)),l.rotacion3DActiva===false?0:compact(safeNumber(l.rotationY,0)),
         shadow.activo===true?1:0,compact(safeNumber(shadow.desenfoque,12)),compact(safeNumber(shadow.x,0)),compact(safeNumber(shadow.y,8)),
         compact(safeNumber(shadow.opacidad,35)),shapes[path.forma]===undefined?0:shapes[path.forma],compact(safeNumber(path.amplitud,.35))];
     });
@@ -1021,9 +1030,9 @@ dialog h2{font-size:21px;margin:0 0 8px}
             imagen:im.src,
             baseAncho:1,baseAlto:ratio,ancho:1,alto:ratio,
             escalaUniforme:1,escalaX:1,escalaY:1,
-            x:0,y:0,z:Math.min(1,.015+(i*.02)),rotation:0,rotationX:0,rotationY:0,pivotX:.5,pivotY:.5,
+            x:0,y:0,z:Math.min(1,.015+(i*.02)),rotation:0,rotationX:0,rotationY:0,rotacion3DActiva:true,pivotX:.5,pivotY:.5,
             sombra:{activo:false,desenfoque:12,x:0,y:8,opacidad:35},opacidad:1,visible:true,
-            animacion:{tipo:'flotar',amplitud:.15,duracionMs:2500,trayectoria:{forma:'circulo',amplitud:.35}}
+            animacion:{activo:true,tipo:'flotar',amplitud:.15,duracionMs:2500,trayectoria:{forma:'circulo',amplitud:.35}}
           });
         }
       }
@@ -1080,9 +1089,9 @@ dialog h2{font-size:21px;margin:0 0 8px}
         if(Math.abs(image.ratio-aspect)>.01)throw Error('El PNG '+file.name+' debe tener la misma proporción del cuadro.');
         var id=newId('capa'),l={id:id,nombre:file.name.replace(/\.png$/i,''),imagen:image.src,
           baseAncho:1,baseAlto:aspect,ancho:1,alto:aspect,x:0,y:0,
-          z:Math.min(1,.015+(article().capas.length*.02)),rotation:0,rotationX:0,rotationY:0,pivotX:.5,pivotY:.5,
+          z:Math.min(1,.015+(article().capas.length*.02)),rotation:0,rotationX:0,rotationY:0,rotacion3DActiva:true,pivotX:.5,pivotY:.5,
           sombra:{activo:false,desenfoque:12,x:0,y:8,opacidad:35},opacidad:1,visible:true,
-          animacion:{tipo:'flotar',amplitud:.15,duracionMs:2500,trayectoria:{forma:'circulo',amplitud:.35}}};
+          animacion:{activo:true,tipo:'flotar',amplitud:.15,duracionMs:2500,trayectoria:{forma:'circulo',amplitud:.35}}};
         article().capas.push(l);selectedId=l.id;
       }
       render();note('Se agregaron '+files.length+' capas. Puedes ordenarlas y prepararlas para GitHub desde este editor.');
