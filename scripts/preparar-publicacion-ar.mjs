@@ -103,7 +103,7 @@ const output={
         id:layerId,nombre:String(l.nombre||layerId).slice(0,100),imagen:image,
         ancho:Number(l.ancho),alto:Number(l.alto),x:Number(l.x),y:Number(l.y),z:Number(l.z),opacidad:Number(l.opacidad),
         rotation:Number(l.rotation||0),rotationX:Number.isFinite(Number(l.rotationX))?Number(l.rotationX):0,
-        rotationY:Number.isFinite(Number(l.rotationY))?Number(l.rotationY):0,
+        rotationY:Number.isFinite(Number(l.rotationY))?Number(l.rotationY):0,rotacion3DActiva:l.rotacion3DActiva!==false,
         pivotX:Math.max(0,Math.min(1,Number.isFinite(Number(l.pivotX))?Number(l.pivotX):.5)),
         pivotY:Math.max(0,Math.min(1,Number.isFinite(Number(l.pivotY))?Number(l.pivotY):.5)),
         sombra:{
@@ -121,7 +121,7 @@ const output={
         separacionZ:Math.max(-.08,Math.min(.08,Number.isFinite(Number(l.separacionZ))?Number(l.separacionZ):0)),
         visible:l.visible!==false,
         animacion:{
-          tipo:type,amplitud:Number.isFinite(Number(a.amplitud))?Number(a.amplitud):0,
+          activo:a.activo!==false,tipo:type,amplitud:Number.isFinite(Number(a.amplitud))?Number(a.amplitud):0,
           duracionMs:Number.isFinite(Number(a.duracionMs))?Number(a.duracionMs):2000,
           trayectoria:{
             forma:['circulo','ocho','arco'].includes(a.trayectoria&&a.trayectoria.forma)?a.trayectoria.forma:'circulo',
