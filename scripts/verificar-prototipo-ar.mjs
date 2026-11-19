@@ -57,8 +57,11 @@ assert.ok(viewer.includes('readCameraProject'),'El visor no puede recuperar proy
 const from=multiEditor.indexOf('  function normalize(raw){');
 const to=multiEditor.indexOf('  function persist(){',from);
 assert.ok(from>=0&&to>from,'No se encontró función de normalización multic uadro');
+const optimizationContext=vm.createContext({window:{}});
+vm.runInContext(fs.readFileSync('public/visor/optimizacion-ar.js','utf8'),optimizationContext);
 const context=vm.createContext({
   safeNumber:(v,fallback)=>Number.isFinite(Number(v))?Number(v):fallback,
+  optimization:optimizationContext.window.VisorAROptimization,
   Set,Error
 });
 const emergeStart=multiEditor.indexOf('  function normalizeEmergence(value){');
