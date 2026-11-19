@@ -20,6 +20,8 @@ h1{font-size:17px;margin:0 0 6px}h2{font-size:14px;margin:0 0 12px}.muted{color:
 .group-label{color:#9eb4d0;font-size:11px;letter-spacing:.09em;font-weight:800;text-transform:uppercase;margin:20px 0 8px}
 .art{background:#15243a;padding:12px;border:1px solid #38516a;border-radius:12px;font-size:13px}
 .layerlist{display:grid;gap:8px}
+.layer-order-controls{margin:10px 0 4px}
+.layer-order-controls button{flex:1;min-width:100px}
 .artlist{display:grid;gap:8px;margin:12px 0 8px;max-height:305px;overflow:auto}
 .artentry{width:100%;display:flex;gap:9px;align-items:center;text-align:left;padding:9px;border-radius:12px;border:1px solid #30455f;background:#0a1728;color:#e2f1ff}
 .artentry.active{border-color:#58d2fb;background:#17314b}
@@ -123,8 +125,13 @@ dialog h2{font-size:21px;margin:0 0 8px}
 </div>
 <div class="art" id="artName">Cargando proyecto…</div>
 <div class="field" style="margin-top:11px"><label for="artTitle">Nombre del cuadro seleccionado</label><input id="artTitle" type="text" maxlength="100"></div>
-<div class="group-label">Capas · fondo → frente</div>
-<div class="layerlist" id="layerlist"></div>
+<div class="group-label">Capas · frente → fondo</div>
+<div class="layerlist" id="layerlist" aria-label="Capas ordenadas de adelante hacia atrás"></div>
+<div class="controls layer-order-controls" role="group" aria-label="Cambiar el orden de la capa seleccionada">
+  <button id="layerUp" class="subtle" type="button" title="Subir esta capa hacia el frente">↑ Subir capa</button>
+  <button id="layerDown" class="subtle" type="button" title="Bajar esta capa hacia el fondo">↓ Bajar capa</button>
+</div>
+<p class="muted">Selecciona una capa y súbela o bájala, aunque hayas cargado los PNG en otro orden. También se intercambia su profundidad Z para que el cambio se refleje en el visor AR.</p>
 <div class="controls full"><button id="applyDepthPreset" class="subtle" type="button">Aplicar profundidad + movimiento 2.5D</button></div>
 <p class="muted">Distribuye las capas desde el fondo hasta el frente y asigna movimientos distintos. Puedes seguir ajustando cada PNG individualmente.</p>
 <div class="group-label">Añadir archivos</div>
@@ -220,7 +227,7 @@ dialog h2{font-size:21px;margin:0 0 8px}
 </div>
 <hr class="full">
 <div class="controls full"><label class="switch"><input id="visible" type="checkbox"> Capa visible</label></div>
-<div class="controls full"><button id="toBack" class="subtle">Mover atrás</button><button id="toFront" class="subtle">Mover delante</button></div>
+<div class="controls full"><button id="toFront" class="subtle" type="button">↑ Subir capa</button><button id="toBack" class="subtle" type="button">↓ Bajar capa</button></div>
 <div class="controls full"><button id="remove" class="danger">Eliminar capa</button></div>
 </aside>
 </div>
@@ -454,7 +461,8 @@ dialog h2{font-size:21px;margin:0 0 8px}
   function drawList(){
     var list=$('layerlist');list.replaceChildren();
     var all=article().capas;
-    all.forEach(function(l,i){
+    all.slice().reverse().forEach(function(l){
+      var i=all.findIndex(function(entry){return entry.id===l.id;});
       var b=document.createElement('button');b.className='layer'+(l.id===selectedId?' active':'');b.type='button';b.setAttribute('aria-pressed',String(l.id===selectedId));
       var img=document.createElement('img');img.className='thumb';img.src=asset(l.imagen);img.alt='';
       var name=document.createElement('span');name.style.flex='1';
@@ -466,6 +474,9 @@ dialog h2{font-size:21px;margin:0 0 8px}
       list.appendChild(b);
     });
     $('counter').textContent=all.length+' capas';
+    var current=all.findIndex(function(l){return l.id===selectedId;});
+    ['toFront','layerUp'].forEach(function(id){$(id).disabled=current<0||current>=all.length-1;});
+    ['toBack','layerDown'].forEach(function(id){$(id).disabled=current<=0;});
   }
   function drawBoard(){
     var b=$('artboard');b.querySelectorAll('.layerplane').forEach(function(n){n.remove();});
@@ -680,9 +691,24 @@ dialog h2{font-size:21px;margin:0 0 8px}
     checkpoint();
     article().nombre=this.value.trim()||article().id;render();note('Nombre del cuadro actualizado en el borrador.');
   });
-  $('toBack').addEventListener('click',function(){move(-1);});
-  $('toFront').addEventListener('click',function(){move(1);});
-  function move(delta){var layers=article().capas,i=layers.findIndex(function(l){return l.id===selectedId;});var target=i+delta;if(target<0||target>=layers.length)return;checkpoint();var temp=layers[i];layers[i]=layers[target];layers[target]=temp;render();note('Orden de profundidad actualizado.');}
+  ['layerDown','toBack'].forEach(function(id){$(id).addEventListener('click',function(){move(-1);});});
+  ['layerUp','toFront'].forEach(function(id){$(id).addEventListener('click',function(){move(1);});});
+  function move(delta){
+    var art=article();if(!art)return;
+    var layers=art.capas,i=layers.findIndex(function(l){return l.id===selectedId;}),target=i+delta;
+    if(i<0||target<0||target>=layers.length)return;
+    checkpoint();
+    // El orden almacenado es fondo → frente. Al intercambiar los planos
+    // también se intercambian sus posiciones de profundidad para que el
+    // cambio sea visible tanto en el lienzo 3D como en la cámara AR.
+    var active=layers[i],neighbor=layers[target];
+    var depth=active.z,spacing=active.separacionZ;
+    active.z=neighbor.z;active.separacionZ=neighbor.separacionZ;
+    neighbor.z=depth;neighbor.separacionZ=spacing;
+    layers[i]=neighbor;layers[target]=active;
+    render();persistQuiet();
+    note('Capa «'+active.nombre+'» '+(delta>0?'subida hacia el frente.':'bajada hacia el fondo.'));
+  }
   $('applyDepthPreset').addEventListener('click',function(){
     var art=article(),layers=art&&art.capas;
     if(!layers||layers.length<2){note('Agrega al menos dos capas para distribuir la profundidad.');return;}
