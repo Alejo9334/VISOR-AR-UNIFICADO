@@ -88,6 +88,10 @@ const updated={
   espaciadoCapas:Number.isFinite(Number(input.espaciadoCapas))?Math.max(0,Math.min(.08,Number(input.espaciadoCapas))):current.espaciadoCapas,
   parallax:{activo:input.parallax?.activo===true,intensidad:Math.max(0,Math.min(1,Number(input.parallax?.intensidad)||0))},
   efectoEmergencia:input.efectoEmergencia||current.efectoEmergencia,
+  optimizacionAR:{perfil:['estable','equilibrado','cinematografico'].includes(input.optimizacionAR?.perfil)
+    ?input.optimizacionAR.perfil:
+    (['estable','equilibrado','cinematografico'].includes(current.optimizacionAR?.perfil)
+      ?current.optimizacionAR.perfil:'equilibrado')},
   capas:layers
 };
 catalog.cuadros[index]=updated;
