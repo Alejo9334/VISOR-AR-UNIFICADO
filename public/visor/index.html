@@ -589,7 +589,7 @@
         var depth=maxDepth-minDepth>.001?(effectiveDepth-minDepth)/(maxDepth-minDepth):i/Math.max(1,group.wrappers.length-1);
         depth=Math.max(0,Math.min(1,depth));
         var physicalDepth=Math.max(0,Math.min(.75,effectiveDepth-minDepth));
-        var type=['flotar','pulso','girar','desplazar','balancear','trayectoria'].includes(anim.tipo)?anim.tipo:'ninguna';
+        var type=anim.activo===false?'ninguna':(['flotar','pulso','girar','desplazar','balancear','trayectoria'].includes(anim.tipo)?anim.tipo:'ninguna');
         var amplitude=Math.abs(Number(anim.amplitud)||0);
         var period=Math.max(.4,Math.min(15,(Number(anim.duracionMs)||2400)/1000));
         wrapper.depthFactor=depth;
@@ -598,9 +598,9 @@
         var pivotOffsetX=(pivotX-.5)*Number(layer.ancho||1);
         var pivotOffsetY=(.5-pivotY)*Number(layer.alto||1);
         wrapper.basePosition={x:(Number(layer.x)||0)+pivotOffsetX,y:(Number(layer.y)||0)+pivotOffsetY,z:-.055+physicalDepth*.28};
-        wrapper.baseRotationX=(Number(layer.rotationX)||0)*Math.PI/180;
-        wrapper.baseRotationY=(Number(layer.rotationY)||0)*Math.PI/180;
-        wrapper.baseRotation=(Number(layer.rotation)||0)*Math.PI/180;
+        wrapper.baseRotationX=(layer.rotacion3DActiva===false?0:(Number(layer.rotationX)||0))*Math.PI/180;
+        wrapper.baseRotationY=(layer.rotacion3DActiva===false?0:(Number(layer.rotationY)||0))*Math.PI/180;
+        wrapper.baseRotation=(layer.rotacion3DActiva===false?0:(Number(layer.rotation)||0))*Math.PI/180;
         wrapper.motionSpec={
           type:type,period:period,phase:i*1.137,
           x:.0015+depth*.002,
