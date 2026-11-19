@@ -11,9 +11,10 @@ for(const source of scripts)new vm.Script(source,{filename:'public/visor/index.h
 // El seguimiento filtra ruido del marcador y tolera pérdidas breves.
 const mindar=html.match(/'mindar-image':([\s\S]*?)\n    \}\);/);
 assert.ok(mindar,'No se encontró la configuración de MindAR');
-for(const [key,expected] of [['filterMinCF','0.01'],['filterBeta','0.2'],['warmupTolerance','6'],['missTolerance','18']]){
-  assert.ok(mindar[1].includes(key+': '+expected),'Falta la configuración de estabilización '+key);
+for(const key of ['filterMinCF','filterBeta','warmupTolerance','missTolerance']){
+  assert.ok(mindar[1].includes('cameraConfig.'+key),'El motor no aplica el perfil de seguimiento: '+key);
 }
+assert.ok(html.includes('optimization.cameraFor(data.cuadros)'),'El motor no consulta los perfiles configurados');
 
 // Las animaciones deben funcionar aunque la aparición cinematográfica esté desactivada.
 const noEmergence=html.match(/if\(motionReduced\|\|!settings\.enabled\)\{([\s\S]*?)\n        return;\n      \}/);
