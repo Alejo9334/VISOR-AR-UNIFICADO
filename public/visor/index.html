@@ -373,7 +373,7 @@
       'device-orientation-permission-ui': 'enabled: false',
       renderer: 'colorManagement: true; alpha: true; antialias: true',
       'mindar-image': 'imageTargetSrc: ' + new URL(targetSrc, location.href).href +
-        '; autoStart: false; uiLoading: no; uiScanning: no; uiError: no; maxTrack: 1'
+        '; autoStart: false; uiLoading: no; uiScanning: no; uiError: no; maxTrack: 1; filterMinCF: 0.01; filterBeta: 15; warmupTolerance: 5; missTolerance: 16'
     });
     scene.style.cssText='position:absolute; inset:0; width:100%; height:100%;';
     var collections = new Map();
@@ -466,7 +466,7 @@
           var mesh=wrapper.layerPlane.getObject3D('mesh');
           if(mesh&&mesh.material)mesh.material.opacity=wrapper.finalAlpha;
         });
-        if(settings.enabled||(group.art.parallax&&group.art.parallax.activo))startLayerMotion(group,version);
+        startLayerMotion(group,version);
         return;
       }
       var startTime=null;
@@ -603,15 +603,15 @@
         wrapper.baseRotation=(layer.rotacion3DActiva===false?0:(Number(layer.rotation)||0))*Math.PI/180;
         wrapper.motionSpec={
           type:type,period:period,phase:i*1.137,
-          x:.0015+depth*.002,
-          y:.0025+Math.min(.012,amplitude*.012),
-          z:.001+depth*.0025,
-          scale:.008+Math.min(.055,amplitude*.06),
-          rotation:Math.min(.045,(amplitude||8)*Math.PI/180*.2),
-          slideX:Math.min(.035,amplitude*.035),
+          x:.003+depth*.003,
+          y:.008+Math.min(.026,amplitude*.14),
+          z:.003+depth*.005,
+          scale:.025+Math.min(.10,amplitude*.8),
+          rotation:Math.min(Math.PI/3,amplitude*Math.PI/180),
+          slideX:Math.min(.065,amplitude*.12),
           tilt:Math.min(.45,amplitude*Math.PI/180),
           pathShape:(anim.trayectoria&&['circulo','ocho','arco'].includes(anim.trayectoria.forma))?anim.trayectoria.forma:'circulo',
-          pathAmplitude:Math.max(0,Math.min(1,Number(anim.trayectoria&&anim.trayectoria.amplitud)||.35))*.035
+          pathAmplitude:Math.max(0,Math.min(1,Number.isFinite(Number(anim.trayectoria&&anim.trayectoria.amplitud))?Number(anim.trayectoria.amplitud):.35))*.075
         };
         wrapper.object3D.position.set(wrapper.basePosition.x,wrapper.basePosition.y,wrapper.basePosition.z);
         wrapper.object3D.rotation.set(wrapper.baseRotationX,wrapper.baseRotationY,wrapper.baseRotation);
