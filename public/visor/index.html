@@ -30,20 +30,57 @@
     body.immersive #stop { padding: 10px 18px; font-size: 12px; opacity: .7; }
     .brand { font-size: 16px; letter-spacing: .02em; font-weight: 750; text-shadow: 0 2px 12px #000; }
     .pill { padding: 8px 11px; border: 1px solid #ffffff40; border-radius: 999px; background: #06132cbb; backdrop-filter: blur(12px); font-size: 12px; }
-    #reticle { left: 50%; top: 49%; transform: translate(-50%,-50%); width: min(68vw, 290px); aspect-ratio: 4/3; border: 2px solid #8dd3ff99; border-radius: 24px; box-shadow: 0 0 0 999px #00000025; transition: opacity .3s; }
-    #reticle::before, #reticle::after { content: ""; position: absolute; width: 34px; height: 34px; border: 4px solid #6ed6ff; border-radius: 12px; }
-    #reticle::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
-    #reticle::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
-    #reticle { pointer-events: none; }
-    #recognitionPulse { position: fixed; z-index: 45; left: 50%; top: 49%; width: min(68vw,290px); aspect-ratio: 4/3; transform: translate(-50%,-50%) scale(.94); border: 2px solid #6df4ff; border-radius: 24px; opacity: 0; pointer-events: none; box-shadow: 0 0 25px #54d8ff99, inset 0 0 30px #54d8ff33; }
-    #recognitionLabel { position: absolute; left: 50%; bottom: -44px; transform: translateX(-50%); padding: 8px 13px; border-radius: 100px; white-space: nowrap; font-size: 12px; background: #06192bec; color: #d8faff; border: 1px solid #83edff99; }
+    /* Guía de pantalla completa: NO delimita el área de detección de MindAR.
+       Mantiene toda la imagen visible y usa esquinas discretas como orientación. */
+    #reticle {
+      inset: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
+             max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+      width: auto; height: auto; transform: none; aspect-ratio: auto;
+      border: 1px solid #8dd3ff44; border-radius: 18px;
+      box-shadow: inset 0 0 12px #6dcfff0a; transition: opacity .3s; pointer-events: none;
+    }
+    #reticle::before, #reticle::after {
+      content: ""; position: absolute; width: 46px; height: 46px;
+      border: 3px solid #6ed6ffbb; border-radius: 14px;
+    }
+    #reticle::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+    #reticle::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+    #recognitionPulse {
+      position: fixed; z-index: 45;
+      inset: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
+             max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+      width: auto; height: auto; transform: scale(.99);
+      border: 2px solid #6df4ff66; border-radius: 18px; opacity: 0;
+      pointer-events: none; box-shadow: inset 0 0 16px #54d8ff1d;
+    }
+    #recognitionLabel {
+      position: absolute; left: 50%;
+      top: max(58px, calc(env(safe-area-inset-top) + 48px)); transform: translateX(-50%);
+      padding: 8px 13px; border-radius: 100px; white-space: nowrap; font-size: 12px;
+      background: #06192bec; color: #d8faff; border: 1px solid #83edff99;
+    }
     #recognitionPulse.active { animation: recognitionGlow 1.05s ease-out both; }
     @keyframes recognitionGlow {
-      0% { opacity: 0; transform: translate(-50%,-50%) scale(.88); }
-      25% { opacity: 1; transform: translate(-50%,-50%) scale(1.03); }
-      75% { opacity: .9; }
-      100% { opacity: 0; transform: translate(-50%,-50%) scale(1.15); }
+      0% { opacity: 0; transform: scale(.99); }
+      25% { opacity: .85; transform: scale(1); }
+      75% { opacity: .65; }
+      100% { opacity: 0; transform: scale(1.01); }
     }
+    /* Zoom de la pista nativa de cámara: solo aparece cuando el navegador lo permite. */
+    #zoomDock[hidden] { display: none !important; }
+    #zoomDock {
+      position: fixed; z-index: 55; top: max(74px, calc(env(safe-area-inset-top) + 59px));
+      right: max(12px, env(safe-area-inset-right)); display: flex; align-items: center; gap: 5px;
+      background: #06192bec; padding: 5px; border: 1px solid #ffffff44;
+      border-radius: 13px; backdrop-filter: blur(10px); color: white;
+    }
+    #zoomDock button {
+      min-width: 36px; min-height: 36px; padding: 4px 7px; border-radius: 9px;
+      background: #1e3c55; color: white; box-shadow: none; font-size: 17px;
+    }
+    #zoomDock button:disabled { opacity: .35; cursor: default; }
+    #zoomValue { font-size: 12px; font-weight: 750; min-width: 42px; text-align: center; font-variant-numeric: tabular-nums; }
+    @media(max-width:390px){#zoomDock{top:max(70px,calc(env(safe-area-inset-top) + 57px));right:10px}}
     #bottom { bottom: max(20px, env(safe-area-inset-bottom)); left: 18px; right: 18px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center; }
     #message { max-width: 430px; padding: 12px 16px; border-radius: 16px; background: #08172ddd; backdrop-filter: blur(12px); border: 1px solid #ffffff25; font-size: 13px; line-height: 1.45; }
     button { pointer-events: auto; appearance: none; border: 0; border-radius: 14px; padding: 14px 24px; font: inherit; font-size: 15px; font-weight: 750; background: #5dd4ff; color: #072034; box-shadow: 0 8px 28px #0006; cursor: pointer; }
@@ -72,7 +109,7 @@
     <div class="panel">
       <div style="font-size:52px" aria-hidden="true">🖼️</div>
       <h1>La magia está frente a ti</h1>
-      <p>Activa tu cámara y observa cómo las imágenes cobran vida ante tus ojos.</p>
+      <p>Activa la cámara y escanea imágenes en cualquier parte de la pantalla. Acércate cuando el cuadro se vea demasiado pequeño.</p>
       <p id="count">Cargando catálogo de cuadros…</p>
       <button id="start" disabled>Activar cámara</button>
       <p class="hint">Sin QR · Sin instalación · Requiere permiso de cámara y conexión HTTPS</p>
@@ -81,11 +118,17 @@
   <div class="hud" id="top"><span class="brand">VISOR<span style="color:#5dd4ff">·222</span></span><div class="top-actions"><span class="pill" id="state">Preparando</span><button id="immersive" aria-pressed="false" aria-label="Activar vista inmersiva">⛶ <span id="immersiveLabel">Pantalla completa</span></button></div></div>
   <div class="hud" id="reticle" aria-hidden="true"></div>
   <div id="recognitionPulse" aria-hidden="true"><span id="recognitionLabel">✓ Imagen reconocida</span></div>
+  <div id="zoomDock" hidden role="group" aria-label="Zoom de cámara para imágenes lejanas">
+    <button id="zoomOut" type="button" aria-label="Alejar cámara" title="Reducir zoom">−</button>
+    <output id="zoomValue" aria-live="polite">1.0×</output>
+    <button id="zoomIn" type="button" aria-label="Acercar cámara" title="Ampliar imagen lejana">+</button>
+  </div>
   <div class="hud" id="bottom">
     <span id="message" role="status" aria-live="polite">Prepara el cuadro frente a la cámara.</span>
     <button id="stop">Cerrar cámara</button>
   </div>
 <script src="./optimizacion-ar.js"></script>
+<script src="./camera-zoom.js"></script>
 <script>
 (function () {
   'use strict';
@@ -98,6 +141,12 @@
   var immersiveButton=document.getElementById('immersive');
   var immersiveLabel=document.getElementById('immersiveLabel');
   var recognitionPulse=document.getElementById('recognitionPulse');
+  var zoomDock=document.getElementById('zoomDock');
+  var zoomIn=document.getElementById('zoomIn');
+  var zoomOut=document.getElementById('zoomOut');
+  var zoomValueElement=document.getElementById('zoomValue');
+  var zoomTools=window.VisorARCameraZoom;
+  var zoomTrack=null,zoomRange=null,zoomValue=1,zoomBusy=false;
   var motionReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var optimization=window.VisorAROptimization;
   var pulseTimer=null;
@@ -135,6 +184,48 @@
     message.textContent = text;
     status.textContent = short || text;
   }
+
+  // No se altera el flujo de permisos ni se solicitan cámaras adicionales.
+  // El zoom es una ayuda optativa: en algunos teléfonos será digital y no
+  // aportará nuevos detalles para la detección de objetivos lejanos.
+  function updateZoomButtons(){
+    zoomValueElement.textContent=zoomValue.toFixed(1)+'×';
+    zoomOut.disabled=zoomBusy||!zoomRange||zoomValue<=zoomRange.min+.02;
+    zoomIn.disabled=zoomBusy||!zoomRange||zoomValue>=zoomRange.max-.02;
+  }
+  function resetCameraZoom(){
+    zoomTrack=null;zoomRange=null;zoomValue=1;zoomBusy=false;
+    zoomDock.hidden=true;updateZoomButtons();
+  }
+  function discoverCameraZoom(){
+    resetCameraZoom();
+    var track=zoomTools&&zoomTools.findTrack(document);
+    var range=track&&zoomTools.getRange(track);
+    if(!range)return false; // No aparece ningún control en cámaras incompatibles.
+    zoomTrack=track;zoomRange=range;zoomValue=zoomTools.current(track,range);
+    zoomDock.hidden=false;updateZoomButtons();
+    return true;
+  }
+  async function adjustCameraZoom(direction){
+    if(!zoomTrack||!zoomRange||zoomBusy||zoomTrack.readyState==='ended')return;
+    var track=zoomTrack,range=zoomRange;
+    var desired=zoomTools.next(range,zoomValue,direction);
+    if(Math.abs(desired-zoomValue)<.005)return;
+    zoomBusy=true;updateZoomButtons();
+    try{
+      var applied=await zoomTools.apply(track,range,desired);
+      if(zoomTrack!==track)return;
+      zoomValue=applied;
+    }catch(error){
+      console.warn('Zoom de cámara no admitido en este dispositivo',error);
+      resetCameraZoom();
+      say('La cámara no pudo ajustar el zoom. Puedes acercarte físicamente al cuadro.','Zoom no disponible');
+    }finally{
+      if(zoomTrack===track){zoomBusy=false;updateZoomButtons();}
+    }
+  }
+  zoomIn.addEventListener('click',function(){adjustCameraZoom(1);});
+  zoomOut.addEventListener('click',function(){adjustCameraZoom(-1);});
 
   function pulseRecognition(){
     recognitionPulse.classList.remove('active');
@@ -677,7 +768,8 @@
       }
       await system.start();
       document.body.classList.add('running');
-      say('Apunta al cuadro registrado y mantén el teléfono estable.', 'Buscando cuadro');
+      discoverCameraZoom();
+      say('Escanea el cuadro en cualquier parte de la pantalla. Si está lejos, usa el zoom disponible o acércate.', 'Buscando cuadro');
     } catch(err) {
       console.error(err);
       say('No se pudo iniciar la cámara. Revisa permisos, HTTPS y compatibilidad del navegador.', 'Error de cámara');
@@ -685,6 +777,7 @@
   }
 
   async function stop() {
+    resetCameraZoom();
     try { if(scene && scene.systems['mindar-image-system']) await scene.systems['mindar-image-system'].stop(); }
     catch(err) { console.error(err); }
     tracked.clear();
@@ -709,6 +802,7 @@
   startButton.addEventListener('click', start);
   stopButton.addEventListener('click', stop);
   window.addEventListener('pagehide', function () {
+    resetCameraZoom();
     artworkGroups.forEach(function(group){if(group.lostTimer){clearTimeout(group.lostTimer);group.lostTimer=0;}});
     if(scene && scene.systems['mindar-image-system']) scene.systems['mindar-image-system'].stop();
     if(generatedMindUrl) URL.revokeObjectURL(generatedMindUrl);

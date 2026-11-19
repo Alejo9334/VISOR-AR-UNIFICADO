@@ -143,7 +143,7 @@ for(const flag of ['recognitionPulse','pulseRecognition','revealArtwork','resetR
   assert.ok(cinematic.includes(flag),'Falta mejora visual AR: '+flag);
 }
 assert.ok(cinematic.includes('La magia está frente a ti'),'Debe mantenerse el mensaje de bienvenida seleccionado');
-assert.ok(cinematic.includes('Activa tu cámara y observa cómo las imágenes cobran vida ante tus ojos.'),'Debe mantenerse la descripción de bienvenida');
+assert.ok(cinematic.includes('Activa la cámara y escanea imágenes en cualquier parte de la pantalla.'),'La descripción debe explicar el escaneo a pantalla completa');
 console.log('Confirmación de reconocimiento, revelado cinematográfico y modo inmersivo incluidos.');
 
 const unifiedEditor=fs.readFileSync('public/visor/editor.html','utf8');
