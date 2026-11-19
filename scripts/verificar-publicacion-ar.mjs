@@ -21,6 +21,7 @@ try{
     cuadros:[ref,{
       id:'cuadro-prueba-integracion',
       nombre:'Cuadro de prueba',
+      optimizacionAR:{perfil:'cinematografico'},
       relacionAltoAncho:ref.relacionAltoAncho,
       imagenObjetivo:ref.imagenObjetivo,
       capas:[{
@@ -41,6 +42,7 @@ try{
   if(!after.cuadros.some(x=>x.id==='cuadro-prueba-integracion'))throw Error('No aparece el ID nuevo');
   const added=after.cuadros.find(x=>x.id==='cuadro-prueba-integracion');
   if(added.capas[0].opacidad!==.65)throw Error('La publicación perdió el valor de opacidad de la capa nueva');
+  if(added.optimizacionAR?.perfil!=='cinematografico')throw Error('La publicación perdió el perfil de optimización del cuadro nuevo');
   for(const old of before.cuadros){
     const now=after.cuadros.find(x=>x.id===old.id);
     if(!now||now.imagenObjetivo!==old.imagenObjetivo||now.capas.length!==old.capas.length)

@@ -85,6 +85,7 @@
     <span id="message" role="status" aria-live="polite">Prepara el cuadro frente a la cámara.</span>
     <button id="stop">Cerrar cámara</button>
   </div>
+<script src="./optimizacion-ar.js"></script>
 <script>
 (function () {
   'use strict';
@@ -98,6 +99,7 @@
   var immersiveLabel=document.getElementById('immersiveLabel');
   var recognitionPulse=document.getElementById('recognitionPulse');
   var motionReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var optimization=window.VisorAROptimization;
   var pulseTimer=null;
   var scene = null;
   var ready = false;
@@ -367,13 +369,17 @@
   }
 
   function buildScene(data, targetSrc) {
+    // MindAR comparte su filtro entre todos los objetivos del catálogo.
+    var cameraConfig=optimization.cameraFor(data.cuadros);
     scene = element('a-scene', {
       embedded: '',
       'vr-mode-ui': 'enabled: false',
       'device-orientation-permission-ui': 'enabled: false',
       renderer: 'colorManagement: true; alpha: true; antialias: true',
       'mindar-image': 'imageTargetSrc: ' + new URL(targetSrc, location.href).href +
-        '; autoStart: false; uiLoading: no; uiScanning: no; uiError: no; maxTrack: 1; filterMinCF: 0.01; filterBeta: 0.2; warmupTolerance: 6; missTolerance: 18'
+        '; autoStart: false; uiLoading: no; uiScanning: no; uiError: no; maxTrack: 1; filterMinCF: '+cameraConfig.filterMinCF+
+        '; filterBeta: '+cameraConfig.filterBeta+'; warmupTolerance: '+cameraConfig.warmupTolerance+
+        '; missTolerance: '+cameraConfig.missTolerance
     });
     scene.style.cssText='position:absolute; inset:0; width:100%; height:100%;';
     var collections = new Map();
@@ -421,6 +427,7 @@
         var parallaxScale=parallaxEnabled?Math.max(0,Math.min(1,Number(parallax.intensidad)||0))*.025:0;
         group.wrappers.forEach(function(wrapper){
           var spec=wrapper.motionSpec||{};
+          var gain=Number(spec.gain)||1;
           var base=wrapper.basePosition||{x:0,y:0,z:-.055};
           var relativeDepth=Math.max(0,Math.min(1,Number(wrapper.depthFactor)||0));
           var depthParallax=.2+.8*relativeDepth;
@@ -428,17 +435,17 @@
           var phase=(elapsed/Math.max(.1,spec.period||2))*Math.PI*2+(spec.phase||0);
           var wave=Math.sin(phase);
           if(spec.type==='flotar'){
-            dx+=Math.cos(phase*.72)*spec.x;dy+=wave*spec.y;dz+=Math.sin(phase*.61)*spec.z;
+            dx+=Math.cos(phase*.72)*spec.x*gain;dy+=wave*spec.y*gain;dz+=Math.sin(phase*.61)*spec.z*gain;
           }else if(spec.type==='pulso'){
-            wrapper.object3D.scale.setScalar(1+wave*spec.scale);dz+=wave*spec.z;
+            wrapper.object3D.scale.setScalar(1+wave*spec.scale*gain);dz+=wave*spec.z*gain;
           }else if(spec.type==='girar'){
-            wrapper.object3D.rotation.z=(wrapper.baseRotation||0)+wave*spec.rotation;dy+=wave*spec.y;
+            wrapper.object3D.rotation.z=(wrapper.baseRotation||0)+wave*spec.rotation*gain;dy+=wave*spec.y*gain;
           }else if(spec.type==='desplazar'){
-            dx+=wave*spec.slideX;
+            dx+=wave*spec.slideX*gain;
           }else if(spec.type==='balancear'){
-            wrapper.object3D.rotation.y=(wrapper.baseRotationY||0)+wave*spec.tilt;
+            wrapper.object3D.rotation.y=(wrapper.baseRotationY||0)+wave*spec.tilt*gain;
           }else if(spec.type==='trayectoria'){
-            var pathWave=phase,amp=spec.pathAmplitude||0;
+            var pathWave=phase,amp=(spec.pathAmplitude||0)*gain;
             if(spec.pathShape==='ocho'){dx+=Math.sin(pathWave)*amp;dy+=Math.sin(pathWave*2)*amp*.5;}
             else if(spec.pathShape==='arco'){dx+=Math.sin(pathWave)*amp;dy+=(1-Math.cos(pathWave))*amp*.5;}
             else{dx+=Math.cos(pathWave)*amp;dy+=Math.sin(pathWave)*amp;}
@@ -446,8 +453,8 @@
           wrapper.object3D.position.set(base.x+dx,base.y+dy,base.z+dz);
           if(spec.type!=='pulso')wrapper.object3D.scale.setScalar(1);
           if(spec.type!=='girar'&&spec.type!=='balancear')wrapper.object3D.rotation.set(wrapper.baseRotationX||0,wrapper.baseRotationY||0,wrapper.baseRotation||0);
-          else if(spec.type==='girar')wrapper.object3D.rotation.set(wrapper.baseRotationX||0,wrapper.baseRotationY||0,(wrapper.baseRotation||0)+wave*spec.rotation);
-          else wrapper.object3D.rotation.set(wrapper.baseRotationX||0,(wrapper.baseRotationY||0)+wave*spec.tilt,wrapper.baseRotation||0);
+          else if(spec.type==='girar')wrapper.object3D.rotation.set(wrapper.baseRotationX||0,wrapper.baseRotationY||0,(wrapper.baseRotation||0)+wave*spec.rotation*gain);
+          else wrapper.object3D.rotation.set(wrapper.baseRotationX||0,(wrapper.baseRotationY||0)+wave*spec.tilt*gain,wrapper.baseRotation||0);
         });
         group.motionFrame=requestAnimationFrame(frame);
       }
@@ -487,7 +494,7 @@
           var ease=1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);
           var base=wrapper.basePosition||{x:0,y:0,z:-.055};
           var depth=wrapper.depthFactor||0;
-          var travel=distance*(.72+depth*.72);
+          var travel=distance*(.72+depth*.72)*group.optimization.entranceGain;
           var startScale=Math.max(.42,settings.initialScale-depth*.07);
           wrapper.object3D.visible=true;
           wrapper.object3D.scale.setScalar(startScale+(1-startScale)*ease);
@@ -528,7 +535,7 @@
     }
     data.cuadros.forEach(function(art) {
       var target=element('a-entity', {'mindar-image-target': 'targetIndex: ' + art.targetIndex});
-      var group={art:art,textures:[],wrappers:[],promise:null,loaded:false,sequence:0,frame:0,lostTimer:0};
+      var group={art:art,textures:[],wrappers:[],promise:null,loaded:false,sequence:0,frame:0,lostTimer:0,optimization:optimization.profile(art.optimizacionAR)};
       collections.set(art.id,group);
       artworkGroups.push(group);
       target.addEventListener('targetFound', function () {
@@ -616,7 +623,7 @@
         wrapper.baseRotationY=(layer.rotacion3DActiva===false?0:(Number(layer.rotationY)||0))*Math.PI/180;
         wrapper.baseRotation=(layer.rotacion3DActiva===false?0:(Number(layer.rotation)||0))*Math.PI/180;
         wrapper.motionSpec={
-          type:type,period:period,phase:i*1.137,
+          type:type,period:period,phase:i*1.137,gain:group.optimization.motionGain,
           x:.003+depth*.003,
           y:.008+Math.min(.026,amplitude*.14),
           z:.003+depth*.005,
