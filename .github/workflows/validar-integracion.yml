@@ -45,6 +45,8 @@ jobs:
         run: node scripts/verificar-estabilidad-ar.mjs
       - name: Probar módulo Optimización AR y perfiles por cuadro
         run: node scripts/verificar-optimizacion-ar.mjs
+      - name: Probar guía de escaneo y zoom de cámara
+        run: node scripts/verificar-escaneo-pantalla-completa.mjs
       - name: Validar catálogo y recursos publicados
         run: node scripts/validar-static-ar.mjs
       - name: Confirmar que no queden enlaces de repositorios antiguos
