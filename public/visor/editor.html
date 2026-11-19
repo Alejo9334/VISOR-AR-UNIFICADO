@@ -22,6 +22,11 @@ h1{font-size:17px;margin:0 0 6px}h2{font-size:14px;margin:0 0 12px}.muted{color:
 .layerlist{display:grid;gap:8px}
 .layer-order-controls{margin:10px 0 4px}
 .layer-order-controls button{flex:1;min-width:100px}
+.ar-audit{font-size:12px;line-height:1.5;background:#0b192a;border:1px solid #2c526c;border-radius:11px;padding:10px;white-space:pre-wrap;color:#c3e9ff;max-height:260px;overflow:auto}
+.ar-audit[data-grade="warning"]{border-color:#b8873b;color:#f8dfb5}
+.ar-audit[data-grade="error"]{border-color:#bb5860;color:#ffe1e3}
+.ar-audit[data-grade="success"]{border-color:#357a66;color:#c9ffed}
+.ar-profile-controls button{flex:1;min-width:105px}
 .artlist{display:grid;gap:8px;margin:12px 0 8px;max-height:305px;overflow:auto}
 .artentry{width:100%;display:flex;gap:9px;align-items:center;text-align:left;padding:9px;border-radius:12px;border:1px solid #30455f;background:#0a1728;color:#e2f1ff}
 .artentry.active{border-color:#58d2fb;background:#17314b}
@@ -137,6 +142,19 @@ dialog h2{font-size:21px;margin:0 0 8px}
 <div class="group-label">Añadir archivos</div>
 <div class="field"><label for="addPng">Agregar capas PNG (selección múltiple)</label><input id="addPng" type="file" accept="image/png" multiple></div>
 <div class="field" style="margin-top:12px"><label for="changeTarget">Cambiar imagen impresa</label><input id="changeTarget" type="file" accept="image/png,image/jpeg,image/webp"></div>
+<div class="group-label">Optimización AR · Cuadro seleccionado</div>
+<div class="field"><label for="arOptimizationProfile">Perfil de calidad</label><select id="arOptimizationProfile">
+<option value="estable">Máxima estabilidad</option>
+<option value="equilibrado">Equilibrado 2.5D (recomendado)</option>
+<option value="cinematografico">Cinematográfico</option>
+</select></div>
+<p class="muted" id="arOptimizationDescription">Equilibra estabilidad y movimiento de las capas.</p>
+<div class="controls ar-profile-controls">
+<button type="button" class="subtle" id="arOptimizationCheck">✓ Comprobar cuadro</button>
+<button type="button" class="subtle" id="arOptimizationFix">Ajustar amplitudes</button>
+</div>
+<div id="arOptimizationReport" class="ar-audit" role="status" aria-live="polite">Pulsa «Comprobar cuadro» antes de publicar. Se revisarán referencia, amplitudes y animaciones.</div>
+<p class="muted">El seguimiento MindAR usa un único filtro compartido; «Máxima estabilidad» activa un suavizado conservador para todos los cuadros de ese visor. Las intensidades de movimiento se aplican individualmente.</p>
 <div class="group-label">Efecto de aparición · Cuadro seleccionado</div>
 <div class="field"><label class="switch" for="emergenceEnabled"><input id="emergenceEnabled" type="checkbox" checked> Emergencia cinematográfica 2.5D</label></div>
 <div class="field"><label for="emergenceDuration">Duración <output id="emergenceDurationVal">1.4 s</output></label><input id="emergenceDuration" type="range" min="500" max="3000" step="100" value="1600"></div>
@@ -276,10 +294,12 @@ dialog h2{font-size:21px;margin:0 0 8px}
 <p class="muted" id="qrStatus" role="status"></p>
 </dialog>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="./optimizacion-ar.js"></script>
 <script>
 (async function(){
   'use strict';
   var $=function(id){return document.getElementById(id);};
+  var optimization=window.VisorAROptimization;
   var draftKey='visor222-editor-visual-v1';
   var catalog=null, selectedId=null, selectedArtId=null, busy=false;
   var creationMode='new';
@@ -411,6 +431,7 @@ dialog h2{font-size:21px;margin:0 0 8px}
       art.parallax={activo:art.parallax&&art.parallax.activo===true,intensidad:Math.max(0,Math.min(1,safeNumber(art.parallax&&art.parallax.intensidad,.35)))};
       art.presets=Array.isArray(art.presets)?art.presets:[];
       art.efectoEmergencia=normalizeEmergence(art.efectoEmergencia);
+      art.optimizacionAR=optimization.normalize(art.optimizacionAR);
       var ids=new Set();
       art.capas.forEach(function(l){
         if(!l.id||!l.imagen||ids.has(l.id))throw Error('Cada capa debe tener ID e imagen únicos dentro de su cuadro.');
@@ -481,6 +502,7 @@ dialog h2{font-size:21px;margin:0 0 8px}
   function drawBoard(){
     var b=$('artboard');b.querySelectorAll('.layerplane').forEach(function(n){n.remove();});
     var art=article();aspect=safeNumber(art.relacionAltoAncho,aspect);
+    var profileGain=optimization.profile(art.optimizacionAR).motionGain;
     var globalGap=Math.max(0,Math.min(.08,safeNumber(art.espaciadoCapas,.02)));
     $('layerSpacing').value=globalGap;
     $('layerSpacingVal').textContent=Math.round(globalGap*100)+'%';
@@ -504,12 +526,12 @@ dialog h2{font-size:21px;margin:0 0 8px}
       if(shadow.activo){pic.style.filter='drop-shadow('+safeNumber(shadow.x,0)+'px '+safeNumber(shadow.y,8)+'px '+safeNumber(shadow.desenfoque,12)+'px rgba(0,0,0,'+(safeNumber(shadow.opacidad,35)/100)+'))';}
       if($('animatePreview').checked&&l.animacion&&l.animacion.activo!==false){
         var ani=l.animacion,dur=Math.max(400,safeNumber(ani.duracionMs,2000));
-        if(ani.tipo==='flotar'){pic.style.animation='floaty '+dur+'ms ease-in-out infinite alternate';pic.style.setProperty('--float-distance',(-Math.min(8,safeNumber(ani.amplitud,.02)*8)/aspect*100)+'%');}
-        else if(ani.tipo==='pulso'){pic.style.setProperty('--pulse',String(1+safeNumber(ani.amplitud,.03)*.18));pic.style.animation='pulse '+dur+'ms ease-in-out infinite alternate';}
-        else if(ani.tipo==='girar'){pic.style.setProperty('--angle',safeNumber(ani.amplitud,0)+'deg');pic.style.animation='turn '+dur+'ms ease-in-out infinite alternate';}
-        else if(ani.tipo==='desplazar'){pic.style.setProperty('--slide-distance',Math.min(8,safeNumber(ani.amplitud,0)*8)+'%');pic.style.animation='slideX '+dur+'ms ease-in-out infinite alternate';}
-        else if(ani.tipo==='balancear'){pic.style.setProperty('--tilt-angle',safeNumber(ani.amplitud,0)+'deg');pic.style.animation='rock3d '+dur+'ms ease-in-out infinite alternate';}
-        else if(ani.tipo==='trayectoria'){var path=ani.trayectoria||{};pic.style.setProperty('--path-a',(safeNumber(path.amplitud,.35)*10)+'%');pic.style.animation=(path.forma==='ocho'?'pathEight':path.forma==='arco'?'pathArc':'pathCircle')+' '+dur+'ms ease-in-out infinite';}
+        if(ani.tipo==='flotar'){pic.style.animation='floaty '+dur+'ms ease-in-out infinite alternate';pic.style.setProperty('--float-distance',(-Math.min(8,safeNumber(ani.amplitud,.02)*8*profileGain)/aspect*100)+'%');}
+        else if(ani.tipo==='pulso'){pic.style.setProperty('--pulse',String(1+safeNumber(ani.amplitud,.03)*.18*profileGain));pic.style.animation='pulse '+dur+'ms ease-in-out infinite alternate';}
+        else if(ani.tipo==='girar'){pic.style.setProperty('--angle',(safeNumber(ani.amplitud,0)*profileGain)+'deg');pic.style.animation='turn '+dur+'ms ease-in-out infinite alternate';}
+        else if(ani.tipo==='desplazar'){pic.style.setProperty('--slide-distance',Math.min(8,safeNumber(ani.amplitud,0)*8*profileGain)+'%');pic.style.animation='slideX '+dur+'ms ease-in-out infinite alternate';}
+        else if(ani.tipo==='balancear'){pic.style.setProperty('--tilt-angle',(safeNumber(ani.amplitud,0)*profileGain)+'deg');pic.style.animation='rock3d '+dur+'ms ease-in-out infinite alternate';}
+        else if(ani.tipo==='trayectoria'){var path=ani.trayectoria||{};pic.style.setProperty('--path-a',(safeNumber(path.amplitud,.35)*10*profileGain)+'%');pic.style.animation=(path.forma==='ocho'?'pathEight':path.forma==='arco'?'pathArc':'pathCircle')+' '+dur+'ms ease-in-out infinite';}
       }
       box.appendChild(pic);b.appendChild(box);
     });
@@ -577,6 +599,7 @@ dialog h2{font-size:21px;margin:0 0 8px}
   function render(){
     if(!catalog||!article())return;
     $('artName').textContent=article().nombre||article().id;
+    populateOptimization();
     $('artTitle').value=article().nombre||'';
     drawArts();drawList();drawBoard();populate();populateEmergence();populateParallax();drawPresets();updateHistoryButtons();
     $('deleteArt').disabled=catalog.cuadros.length<2;
