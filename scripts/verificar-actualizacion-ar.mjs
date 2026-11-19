@@ -21,7 +21,7 @@ try{
   const catalog={version:3,archivoMind:'./targets.mind',cuadros:[neighbor,current],compilador:{cantidadObjetivos:2}};
   fs.writeFileSync(path.join(root,'public','catalogo.json'),JSON.stringify(catalog));
   const hash=crypto.createHash('sha256').update(JSON.stringify(current)).digest('hex');
-  const req={operacion:'actualizar',baseHash:hash,cuadros:[{...current,nombre:'Carnet corregido',
+  const req={operacion:'actualizar',baseHash:hash,cuadros:[{...current,nombre:'Carnet corregido',optimizacionAR:{perfil:'estable'},
     capas:[current.capas[0],{id:'capa-nueva',nombre:'Nueva capa',imagen:'data:image/png;base64,'+picture.toString('base64'),
       ancho:1,alto:1,x:0,y:0,z:.3,opacidad:1,visible:true,rotationX:12,rotationY:5,rotation:3,
       pivotX:.5,pivotY:.5,sombra:{activo:true,desenfoque:6,x:2,y:4,opacidad:55},
@@ -37,6 +37,7 @@ try{
   const carnet=result.cuadros[1];
   if(carnet.capas.length!==2||carnet.targetIndex!==1||carnet.imagenObjetivo!=='./referencia.jpg')
     throw Error('No se conservó el objetivo o no se agregó la capa');
+  if(carnet.optimizacionAR?.perfil!=='estable')throw Error('No se conservó el perfil AR al actualizar');
   if(carnet.capas[1].rotationX!==12||!carnet.capas[1].sombra.activo||carnet.capas[1].animacion.tipo!=='trayectoria')
     throw Error('Se perdieron propiedades nuevas');
   if(!fs.existsSync(path.join(root,'public',carnet.capas[1].imagen)))throw Error('No se escribió la imagen nueva');
