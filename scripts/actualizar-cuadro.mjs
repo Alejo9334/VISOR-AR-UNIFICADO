@@ -65,7 +65,7 @@ const layers=input.capas.map(l=>{
     id:l.id,nombre:String(l.nombre||l.id).slice(0,100),imagen:picture(l.imagen,l.id),
     ancho:Number(l.ancho),alto:Number(l.alto),x:Number(l.x),y:Number(l.y),z:Number(l.z),
     opacidad:Number(l.opacidad),visible:l.visible!==false,
-    rotation:Number(l.rotation)||0,rotationX:Number(l.rotationX)||0,rotationY:Number(l.rotationY)||0,
+    rotation:Number(l.rotation)||0,rotationX:Number(l.rotationX)||0,rotationY:Number(l.rotationY)||0,rotacion3DActiva:l.rotacion3DActiva!==false,
     pivotX:Math.max(0,Math.min(1,l.pivotX===undefined?.5:Number(l.pivotX))),
     pivotY:Math.max(0,Math.min(1,l.pivotY===undefined?.5:Number(l.pivotY))),
     baseAncho:Number(l.baseAncho)||Number(l.ancho),baseAlto:Number(l.baseAlto)||Number(l.alto),
@@ -73,7 +73,7 @@ const layers=input.capas.map(l=>{
     separacionZ:Number(l.separacionZ)||0,
     sombra:{activo:sh.activo===true,desenfoque:Number(sh.desenfoque)||0,x:Number(sh.x)||0,y:Number(sh.y)||0,opacidad:Number(sh.opacidad)||0},
     animacion:{
-      tipo:['ninguna','flotar','pulso','girar','desplazar','balancear','trayectoria'].includes(a.tipo)?a.tipo:'ninguna',
+      activo:a.activo!==false,tipo:['ninguna','flotar','pulso','girar','desplazar','balancear','trayectoria'].includes(a.tipo)?a.tipo:'ninguna',
       amplitud:Number(a.amplitud)||0,duracionMs:Number(a.duracionMs)||2000,
       trayectoria:{forma:['circulo','ocho','arco'].includes(p.forma)?p.forma:'circulo',amplitud:Number(p.amplitud)||.35}
     }
