@@ -85,6 +85,12 @@ dialog h2{font-size:21px;margin:0 0 8px}
 .notice{font-size:12px;color:#c7d7ed;padding:12px;border-radius:13px;background:#10283c;border:1px solid #2d5169;line-height:1.55}
 .status{font-size:12px;color:#bfe6ff;min-height:28px;padding:8px 0}
 .switch{display:flex;align-items:center;gap:8px;font-size:12px;color:#c2d4eb}
+.effect-toggle{padding:8px 10px;background:#10283c;border:1px solid #2d5169;border-radius:10px}
+.effect-settings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;transition:opacity .2s ease}
+.effect-settings.is-disabled{opacity:.42}
+.effect-settings input:disabled,.effect-settings select:disabled{cursor:not-allowed}
+.effect-settings .field{min-width:0}
+@media(max-width:500px){.effect-settings{grid-template-columns:1fr}}
 .top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 @media(max-width:1100px){.wrap{grid-template-columns:210px minmax(260px,1fr)}.right{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.right>h2,.right>.full{grid-column:1/-1}}
 @media(max-width:700px){header{height:auto;padding:14px;align-items:start;flex-direction:column}.wrap{grid-template-columns:1fr;padding:10px}.canvas-wrap{min-height:430px;padding:18px}.right{display:flex}.artboard{width:min(100%,300px)}.spacing-toolbar{align-items:stretch}.spacing-toolbar button{width:100%}.view-button{flex:1;min-width:calc(50% - 8px)}.panel{padding:14px}}
@@ -186,24 +192,32 @@ dialog h2{font-size:21px;margin:0 0 8px}
 <div class="field"><label for="pivotX">Pivote horizontal X <output id="pivotXVal"></output></label><input id="pivotX" type="range" min="0" max="1" step="0.01"></div>
 <div class="field"><label for="pivotY">Pivote vertical Y <output id="pivotYVal"></output></label><input id="pivotY" type="range" min="0" max="1" step="0.01"></div>
 <div class="group-label full">Rotación tridimensional</div>
+<div class="field full effect-toggle"><label class="switch" for="rotationEnabled"><input id="rotationEnabled" type="checkbox"> Activar rotación tridimensional</label></div>
+<div id="rotationSettings" class="effect-settings full">
 <div class="field"><label for="rotationX">Rotación X <output id="rotationXVal"></output></label><input id="rotationX" type="range" min="-180" max="180" step="1"></div>
 <div class="field"><label for="rotationY">Rotación Y <output id="rotationYVal"></output></label><input id="rotationY" type="range" min="-180" max="180" step="1"></div>
 <div class="field"><label for="rotation">Rotación Z <output id="rotationVal"></output></label><input id="rotation" type="range" min="-180" max="180" step="1"></div>
+</div>
 <div class="field"><label for="opacity">Opacidad <output id="opacityVal"></output></label><input id="opacity" type="range" min="0" max="1" step="0.01"></div>
 <hr class="full">
 <h2 class="full">Sombra por capa</h2>
-<div class="field"><label class="switch" for="shadowEnabled"><input id="shadowEnabled" type="checkbox"> Activar sombra</label></div>
+<div class="field full effect-toggle"><label class="switch" for="shadowEnabled"><input id="shadowEnabled" type="checkbox"> Activar sombra</label></div>
+<div id="shadowSettings" class="effect-settings full">
 <div class="field"><label for="shadowBlur">Desenfoque <output id="shadowBlurVal"></output></label><input id="shadowBlur" type="range" min="0" max="40" step="1"></div>
 <div class="field"><label for="shadowOffsetX">Desplazamiento X <output id="shadowOffsetXVal"></output></label><input id="shadowOffsetX" type="range" min="-30" max="30" step="1"></div>
 <div class="field"><label for="shadowOffsetY">Desplazamiento Y <output id="shadowOffsetYVal"></output></label><input id="shadowOffsetY" type="range" min="-30" max="30" step="1"></div>
 <div class="field"><label for="shadowOpacity">Opacidad de sombra <output id="shadowOpacityVal"></output></label><input id="shadowOpacity" type="range" min="0" max="100" step="5"></div>
+</div>
 <hr class="full">
 <h2 class="full">Animación independiente</h2>
+<div class="field full effect-toggle"><label class="switch" for="animationEnabled"><input id="animationEnabled" type="checkbox"> Activar animación independiente</label></div>
+<div id="animationSettings" class="effect-settings full">
 <div class="field"><label for="animationType">Tipo de animación</label><select id="animationType"><option value="ninguna">Sin animación</option><option value="flotar">Flotación</option><option value="pulso">Pulso</option><option value="girar">Rotación animada</option><option value="desplazar">Desplazamiento lateral</option><option value="balancear">Balanceo 3D</option><option value="trayectoria">Trayectoria personalizada</option></select></div>
 <div class="field"><label for="pathShape">Forma de trayectoria</label><select id="pathShape"><option value="circulo">Circular</option><option value="ocho">Figura de ocho</option><option value="arco">Arco</option></select></div>
 <div class="field"><label for="pathAmplitude">Amplitud de trayectoria <output id="pathAmplitudeVal"></output></label><input id="pathAmplitude" type="range" min="0" max="100" step="5" value="35"></div>
 <div class="field"><label for="amplitude">Amplitud <output id="amplitudeVal"></output></label><input id="amplitude" type="range" min="0" max="1" step="0.01"></div>
 <div class="field"><label for="duration">Duración <output id="durationVal"></output></label><input id="duration" type="range" min="400" max="15000" step="100"></div>
+</div>
 <hr class="full">
 <div class="controls full"><label class="switch"><input id="visible" type="checkbox"> Capa visible</label></div>
 <div class="controls full"><button id="toBack" class="subtle">Mover atrás</button><button id="toFront" class="subtle">Mover delante</button></div>
@@ -266,7 +280,7 @@ dialog h2{font-size:21px;margin:0 0 8px}
   var aspect=2047/1638;
   var editorView='perspectiva';
   var undoStack=[],redoStack=[],historyActive=false,historyLimit=50;
-  var controlIds=['name','posX','posY','depth','layerSpacingExtra','scale','scaleX','scaleY','pivotX','pivotY','rotationX','rotationY','rotation','opacity','shadowEnabled','shadowBlur','shadowOffsetX','shadowOffsetY','shadowOpacity','animationType','pathShape','pathAmplitude','amplitude','duration','visible'];
+  var controlIds=['name','posX','posY','depth','layerSpacingExtra','scale','scaleX','scaleY','pivotX','pivotY','rotationX','rotationY','rotation','rotationEnabled','opacity','shadowEnabled','shadowBlur','shadowOffsetX','shadowOffsetY','shadowOpacity','animationEnabled','animationType','pathShape','pathAmplitude','amplitude','duration','visible'];
   function note(msg){$('status').textContent=msg;}
   function historySnapshot(){
     if(!catalog)return null;
@@ -402,12 +416,13 @@ dialog h2{font-size:21px;margin:0 0 8px}
         l.escalaX=Math.max(.25,Math.min(3,safeNumber(l.escalaX,1)));
         l.escalaY=Math.max(.25,Math.min(3,safeNumber(l.escalaY,1)));
         l.rotation=safeNumber(l.rotation,0);
-        l.rotationX=safeNumber(l.rotationX,0);l.rotationY=safeNumber(l.rotationY,0);
+        l.rotationX=safeNumber(l.rotationX,0);l.rotationY=safeNumber(l.rotationY,0);l.rotacion3DActiva=l.rotacion3DActiva!==false;
         l.pivotX=Math.max(0,Math.min(1,safeNumber(l.pivotX,.5)));l.pivotY=Math.max(0,Math.min(1,safeNumber(l.pivotY,.5)));
         l.sombra={activo:l.sombra&&l.sombra.activo===true,desenfoque:Math.max(0,Math.min(40,safeNumber(l.sombra&&l.sombra.desenfoque,12))),x:Math.max(-30,Math.min(30,safeNumber(l.sombra&&l.sombra.x,0))),y:Math.max(-30,Math.min(30,safeNumber(l.sombra&&l.sombra.y,8))),opacidad:Math.max(0,Math.min(100,safeNumber(l.sombra&&l.sombra.opacidad,35)))};
         l.opacidad=safeNumber(l.opacidad,1);
         l.visible=l.visible!==false;
         l.animacion=l.animacion||{tipo:'ninguna',amplitud:0,duracionMs:2000};
+        l.animacion.activo=l.animacion.activo!==false;
         if(!['ninguna','flotar','pulso','girar','desplazar','balancear','trayectoria'].includes(l.animacion.tipo))l.animacion.tipo='ninguna';
         l.animacion.trayectoria=l.animacion.trayectoria||{forma:'circulo',amplitud:.35};
         if(!['circulo','ocho','arco'].includes(l.animacion.trayectoria.forma))l.animacion.trayectoria.forma='circulo';
@@ -471,12 +486,12 @@ dialog h2{font-size:21px;margin:0 0 8px}
       box.style.left=(50+safeNumber(l.x,0)*100-pivotX*w*100)+'%';
       box.style.top=(50-safeNumber(l.y,0)/aspect*100-pivotY*h/aspect*100)+'%';
       box.style.transformOrigin=(pivotX*100)+'% '+(pivotY*100)+'%';
-      box.style.transform='translateZ('+effectiveZ*260+'px) rotateX('+safeNumber(l.rotationX,0)+'deg) rotateY('+safeNumber(l.rotationY,0)+'deg) rotateZ('+safeNumber(l.rotation,0)+'deg)';
+      box.style.transform='translateZ('+effectiveZ*260+'px) rotateX('+(l.rotacion3DActiva===false?0:safeNumber(l.rotationX,0))+'deg) rotateY('+(l.rotacion3DActiva===false?0:safeNumber(l.rotationY,0))+'deg) rotateZ('+(l.rotacion3DActiva===false?0:safeNumber(l.rotation,0))+'deg)';
       var pic=document.createElement('img');pic.src=asset(l.imagen);pic.alt='';
       pic.style.opacity=String(safeNumber(l.opacidad,1));
       var shadow=l.sombra||{};
       if(shadow.activo){pic.style.filter='drop-shadow('+safeNumber(shadow.x,0)+'px '+safeNumber(shadow.y,8)+'px '+safeNumber(shadow.desenfoque,12)+'px rgba(0,0,0,'+(safeNumber(shadow.opacidad,35)/100)+'))';}
-      if($('animatePreview').checked&&l.animacion){
+      if($('animatePreview').checked&&l.animacion&&l.animacion.activo!==false){
         var ani=l.animacion,dur=Math.max(400,safeNumber(ani.duracionMs,2000));
         if(ani.tipo==='flotar'){pic.style.animation='floaty '+dur+'ms ease-in-out infinite alternate';pic.style.setProperty('--float-distance',(-Math.min(8,safeNumber(ani.amplitud,.02)*8)/aspect*100)+'%');}
         else if(ani.tipo==='pulso'){pic.style.setProperty('--pulse',String(1+safeNumber(ani.amplitud,.03)*.18));pic.style.animation='pulse '+dur+'ms ease-in-out infinite alternate';}
@@ -492,7 +507,7 @@ dialog h2{font-size:21px;margin:0 0 8px}
     var l=selected();if(!l)return;
     $('activeTag').textContent=l.id;$('name').value=l.nombre;
     $('pivotX').value=safeNumber(l.pivotX,.5);$('pivotY').value=safeNumber(l.pivotY,.5);
-    $('rotationX').value=safeNumber(l.rotationX,0);$('rotationY').value=safeNumber(l.rotationY,0);
+    $('rotationX').value=safeNumber(l.rotationX,0);$('rotationY').value=safeNumber(l.rotationY,0);$('rotationEnabled').checked=l.rotacion3DActiva!==false;
     var pivotOptions={center:[.5,.5],top:[.5,0],bottom:[.5,1],left:[0,.5],right:[1,.5],'top-left':[0,0],'top-right':[1,0],'bottom-left':[0,1],'bottom-right':[1,1]};
     var pivotKey=Object.keys(pivotOptions).find(function(k){return Math.abs(pivotOptions[k][0]-Number($('pivotX').value))<.005&&Math.abs(pivotOptions[k][1]-Number($('pivotY').value))<.005;});
     $('pivotPreset').value=pivotKey||'custom';
@@ -505,11 +520,12 @@ dialog h2{font-size:21px;margin:0 0 8px}
     $('scale').value=safeNumber(l.escalaUniforme,safeNumber(l.ancho,1)/safeNumber(l.baseAncho,1));
     $('scaleX').value=safeNumber(l.escalaX,1);$('scaleY').value=safeNumber(l.escalaY,1);
     $('rotation').value=l.rotation||0;$('opacity').value=l.opacidad;
+    $('animationEnabled').checked=l.animacion.activo!==false;
     $('animationType').value=l.animacion.tipo||'ninguna';
     configureAmplitude();
     $('amplitude').value=Math.min(Number($('amplitude').max),Math.abs(safeNumber(l.animacion.amplitud,0)));
     $('duration').value=l.animacion.duracionMs||2000;
-    $('visible').checked=l.visible!==false;updateOutputs();
+    $('visible').checked=l.visible!==false;updateOutputs();syncEffectControls();
   }
   function configureAmplitude(){
     var rotating=['girar','balancear'].includes($('animationType').value);
@@ -518,6 +534,13 @@ dialog h2{font-size:21px;margin:0 0 8px}
     $('amplitude').max=rotating?'45':'1';
     $('amplitude').step=rotating?'1':'0.01';
     if(Number($('amplitude').value)>Number($('amplitude').max))$('amplitude').value=rotating?'12':'0.1';
+  }
+  function syncEffectControls(){
+    [['rotationEnabled','rotationSettings'],['shadowEnabled','shadowSettings'],['animationEnabled','animationSettings']].forEach(function(pair){
+      var active=$(pair[0]).checked,section=$(pair[1]);
+      section.classList.toggle('is-disabled',!active);
+      section.querySelectorAll('input,select').forEach(function(control){control.disabled=!active;});
+    });
   }
   function updateOutputs(){
     var values={
@@ -555,7 +578,7 @@ dialog h2{font-size:21px;margin:0 0 8px}
     configureAmplitude();
     l.nombre=$('name').value||l.id;l.x=Number($('posX').value);l.y=Number($('posY').value);
     l.z=Number($('depth').value);l.separacionZ=Number($('layerSpacingExtra').value);l.rotation=Number($('rotation').value);
-    l.rotationX=Number($('rotationX').value);l.rotationY=Number($('rotationY').value);
+    l.rotationX=Number($('rotationX').value);l.rotationY=Number($('rotationY').value);l.rotacion3DActiva=$('rotationEnabled').checked;
     l.pivotX=Number($('pivotX').value);l.pivotY=Number($('pivotY').value);
     l.sombra={activo:$('shadowEnabled').checked,desenfoque:Number($('shadowBlur').value),x:Number($('shadowOffsetX').value),y:Number($('shadowOffsetY').value),opacidad:Number($('shadowOpacity').value)};
     var scale=Number($('scale').value);
@@ -563,9 +586,9 @@ dialog h2{font-size:21px;margin:0 0 8px}
     l.ancho=safeNumber(l.baseAncho,1)*scale*l.escalaX;
     l.alto=safeNumber(l.baseAlto,aspect)*scale*l.escalaY;
     l.opacidad=Number($('opacity').value);l.visible=$('visible').checked;
-    l.animacion={tipo:$('animationType').value,amplitud:Number($('amplitude').value),duracionMs:Number($('duration').value),
+    l.animacion={activo:$('animationEnabled').checked,tipo:$('animationType').value,amplitud:Number($('amplitude').value),duracionMs:Number($('duration').value),
       trayectoria:{forma:$('pathShape').value,amplitud:Number($('pathAmplitude').value)/100}};
-    updateOutputs();drawList();drawBoard();
+    syncEffectControls();updateOutputs();drawList();drawBoard();
   }
   controlIds.forEach(function(id){$(id).addEventListener('input',controlChanged);$(id).addEventListener('change',function(){controlChanged();endHistory();});});
   $('pivotPreset').addEventListener('change',function(){
@@ -617,7 +640,7 @@ dialog h2{font-size:21px;margin:0 0 8px}
     presets.forEach(function(p){select.add(new Option(p.nombre,p.id));});
     $('applyPreset').disabled=!presets.length;$('deletePreset').disabled=!presets.length;
   }
-  var presetFields=['x','y','z','separacionZ','ancho','alto','escalaUniforme','escalaX','escalaY','rotation','rotationX','rotationY','pivotX','pivotY','opacidad','visible','sombra','animacion'];
+  var presetFields=['x','y','z','separacionZ','ancho','alto','escalaUniforme','escalaX','escalaY','rotation','rotationX','rotationY','rotacion3DActiva','pivotX','pivotY','opacidad','visible','sombra','animacion'];
   function saveCompositionPreset(){
     var art=article(),name=$('presetName').value.trim();
     if(!name){note('Escribe un nombre para guardar el preset.');return;}
