@@ -145,7 +145,9 @@ const output={
         activo:art.parallax&&art.parallax.activo===true,
         intensidad:Math.max(0,Math.min(1,Number.isFinite(Number(art.parallax&&art.parallax.intensidad))?Number(art.parallax.intensidad):.35))
       },
-      capas:layers,efectoEmergencia:emergence};
+      capas:layers,efectoEmergencia:emergence,
+      optimizacionAR:{perfil:['estable','equilibrado','cinematografico'].includes(art.optimizacionAR?.perfil)
+        ?art.optimizacionAR.perfil:'equilibrado'}};
   })
 };
 if(append){
