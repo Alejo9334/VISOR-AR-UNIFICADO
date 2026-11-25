@@ -522,13 +522,201 @@
         "intensidad": "cinematografica",
         "destello": true
       }
+    },
+    {
+      "id": "cuadro-mwvkrvqe-1bgj",
+      "nombre": "nutella",
+      "targetIndex": 3,
+      "relacionAltoAncho": 1.25,
+      "imagenObjetivo": "./cuadros/cuadro-mwvkrvqe-1bgj/referencia.jpg",
+      "espaciadoCapas": 0.068,
+      "parallax": {
+        "activo": false,
+        "intensidad": 0.35
+      },
+      "capas": [
+        {
+          "id": "capa-mwvkrvly-21pg",
+          "nombre": "1",
+          "imagen": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-01-capa-mwvkrvly-21pg.optimized.webp",
+          "ancho": 1,
+          "alto": 1.3875000000000002,
+          "x": -0.115,
+          "y": 0,
+          "z": 0.84,
+          "opacidad": 1,
+          "rotation": 0,
+          "rotationX": 0,
+          "rotationY": 0,
+          "rotacion3DActiva": false,
+          "pivotX": 0.98,
+          "pivotY": 0.54,
+          "sombra": {
+            "activo": false,
+            "desenfoque": 12,
+            "x": 0,
+            "y": 8,
+            "opacidad": 35
+          },
+          "baseAncho": 1,
+          "baseAlto": 1.25,
+          "escalaUniforme": 1,
+          "escalaX": 1,
+          "escalaY": 1.11,
+          "separacionZ": 0.012,
+          "visible": true,
+          "animacion": {
+            "activo": false,
+            "tipo": "flotar",
+            "amplitud": 0.12,
+            "duracionMs": 3400,
+            "trayectoria": {
+              "forma": "circulo",
+              "amplitud": 0.35
+            }
+          }
+        },
+        {
+          "id": "capa-mwvkrvnc-12qg",
+          "nombre": "2",
+          "imagen": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-02-capa-mwvkrvnc-12qg.optimized.webp",
+          "ancho": 1,
+          "alto": 1.25,
+          "x": 0,
+          "y": 0,
+          "z": 0.088,
+          "opacidad": 1,
+          "rotation": 0,
+          "rotationX": 0,
+          "rotationY": 0,
+          "rotacion3DActiva": true,
+          "pivotX": 0.5,
+          "pivotY": 0.5,
+          "sombra": {
+            "activo": false,
+            "desenfoque": 12,
+            "x": 0,
+            "y": 8,
+            "opacidad": 35
+          },
+          "baseAncho": 1,
+          "baseAlto": 1.25,
+          "escalaUniforme": 1,
+          "escalaX": 1,
+          "escalaY": 1,
+          "separacionZ": 0,
+          "visible": true,
+          "animacion": {
+            "activo": true,
+            "tipo": "pulso",
+            "amplitud": 0.16,
+            "duracionMs": 2967,
+            "trayectoria": {
+              "forma": "circulo",
+              "amplitud": 0.35
+            }
+          }
+        },
+        {
+          "id": "capa-mwvkrvou-1tvg",
+          "nombre": "3",
+          "imagen": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-03-capa-mwvkrvou-1tvg.optimized.webp",
+          "ancho": 1,
+          "alto": 1.25,
+          "x": 0,
+          "y": 0,
+          "z": 0.162,
+          "opacidad": 1,
+          "rotation": 0,
+          "rotationX": 0,
+          "rotationY": 0,
+          "rotacion3DActiva": true,
+          "pivotX": 0.5,
+          "pivotY": 0.5,
+          "sombra": {
+            "activo": false,
+            "desenfoque": 12,
+            "x": 0,
+            "y": 8,
+            "opacidad": 35
+          },
+          "baseAncho": 1,
+          "baseAlto": 1.25,
+          "escalaUniforme": 1,
+          "escalaX": 1,
+          "escalaY": 1,
+          "separacionZ": 0,
+          "visible": true,
+          "animacion": {
+            "activo": true,
+            "tipo": "girar",
+            "amplitud": 8,
+            "duracionMs": 2533,
+            "trayectoria": {
+              "forma": "circulo",
+              "amplitud": 0.35
+            }
+          }
+        },
+        {
+          "id": "capa-mwvkrvqe-1xsp",
+          "nombre": "4",
+          "imagen": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-04-capa-mwvkrvqe-1xsp.optimized.webp",
+          "ancho": 1,
+          "alto": 1.25,
+          "x": 0,
+          "y": 0,
+          "z": 0.235,
+          "opacidad": 1,
+          "rotation": 0,
+          "rotationX": 0,
+          "rotationY": 0,
+          "rotacion3DActiva": true,
+          "pivotX": 0.5,
+          "pivotY": 0.5,
+          "sombra": {
+            "activo": false,
+            "desenfoque": 12,
+            "x": 0,
+            "y": 8,
+            "opacidad": 35
+          },
+          "baseAncho": 1,
+          "baseAlto": 1.25,
+          "escalaUniforme": 1,
+          "escalaX": 1,
+          "escalaY": 1,
+          "separacionZ": 0,
+          "visible": true,
+          "animacion": {
+            "activo": true,
+            "tipo": "desplazar",
+            "amplitud": 0.24,
+            "duracionMs": 2100,
+            "trayectoria": {
+              "forma": "circulo",
+              "amplitud": 0.35
+            }
+          }
+        }
+      ],
+      "efectoEmergencia": {
+        "activo": true,
+        "duracionMs": 1600,
+        "escalaInicial": 0.62,
+        "intensidad": "cinematografica",
+        "destello": true
+      },
+      "optimizacionAR": {
+        "perfil": "equilibrado"
+      }
     }
   ],
-  "cacheKey": "6794e77153de3578",
+  "cacheKey": "ed5a0503c2034022",
   "archivoMind": "./targets.mind",
   "compilador": {
     "motor": "mind-ar",
     "version": "1.2.5",
-    "cantidadObjetivos": 3
+    "cantidadObjetivos": 4
   }
 }

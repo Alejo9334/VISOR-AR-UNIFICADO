@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "cuadros": 3,
-  "totalOriginal": 7469934,
-  "totalServido": 1725880,
+  "cuadros": 4,
+  "totalOriginal": 7981679,
+  "totalServido": 1827226,
   "imagenes": [
     {
       "original": "./cuadros/cuadro-mwa975aj-6lp/capa-01-capa-mwa9758a-dxy.png",
@@ -157,7 +157,51 @@
       "bytesOptimizado": 38686,
       "ahorroPorcentaje": 78.5,
       "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-01-capa-mwvkrvly-21pg.png",
+      "usado": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-01-capa-mwvkrvly-21pg.optimized.webp",
+      "ancho": 1024,
+      "alto": 1280,
+      "transparencia": true,
+      "bytesOriginal": 162722,
+      "bytesOptimizado": 28954,
+      "ahorroPorcentaje": 82.2,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-02-capa-mwvkrvnc-12qg.png",
+      "usado": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-02-capa-mwvkrvnc-12qg.optimized.webp",
+      "ancho": 1024,
+      "alto": 1280,
+      "transparencia": true,
+      "bytesOriginal": 46177,
+      "bytesOptimizado": 5858,
+      "ahorroPorcentaje": 87.3,
+      "metodo": "sin pérdida"
+    },
+    {
+      "original": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-03-capa-mwvkrvou-1tvg.png",
+      "usado": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-03-capa-mwvkrvou-1tvg.optimized.webp",
+      "ancho": 1024,
+      "alto": 1280,
+      "transparencia": true,
+      "bytesOriginal": 198271,
+      "bytesOptimizado": 41520,
+      "ahorroPorcentaje": 79.1,
+      "metodo": "calidad 93/100"
+    },
+    {
+      "original": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-04-capa-mwvkrvqe-1xsp.png",
+      "usado": "./cuadros/cuadro-mwvkrvqe-1bgj/capa-04-capa-mwvkrvqe-1xsp.optimized.webp",
+      "ancho": 1024,
+      "alto": 1280,
+      "transparencia": true,
+      "bytesOriginal": 104575,
+      "bytesOptimizado": 25014,
+      "ahorroPorcentaje": 76.1,
+      "metodo": "calidad 93/100"
     }
   ],
-  "ahorroPorcentaje": 76.9
+  "ahorroPorcentaje": 77.1
 }
