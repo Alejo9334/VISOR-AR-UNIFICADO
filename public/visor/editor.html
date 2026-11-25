@@ -152,6 +152,7 @@ dialog h2{font-size:21px;margin:0 0 8px}
 <div class="controls ar-profile-controls">
 <button type="button" class="subtle" id="arOptimizationCheck">✓ Comprobar cuadro</button>
 <button type="button" class="subtle" id="arOptimizationFix">Ajustar amplitudes</button>
+<button type="button" id="arStabilize">Reducir temblor AR</button>
 </div>
 <div id="arOptimizationReport" class="ar-audit" role="status" aria-live="polite">Pulsa «Comprobar cuadro» antes de publicar. Se revisarán referencia, amplitudes y animaciones.</div>
 <p class="muted">El seguimiento MindAR usa un único filtro compartido; «Máxima estabilidad» activa un suavizado conservador para todos los cuadros de ese visor. Las intensidades de movimiento se aplican individualmente.</p>
@@ -427,6 +428,29 @@ dialog h2{font-size:21px;margin:0 0 8px}
       note(result.valid?'Comprobación terminada: '+result.warnings.length+' advertencia(s).':'Corrige los errores del panel Optimización AR.');
     }catch(err){note('No se pudo comprobar: '+err.message);}
     finally{this.disabled=false;}
+  });
+  $('arStabilize').addEventListener('click',async function(){
+    var art=article();if(!art)return;
+    checkpoint();
+    art.optimizacionAR=optimization.normalize({perfil:'estable'});
+    art.espaciadoCapas=Math.min(.025,Math.max(0,safeNumber(art.espaciadoCapas,.02)));
+    var maxZ=Math.max(0,...art.capas.map(function(l){return safeNumber(l.z,0);}));
+    var scaleZ=maxZ>.24?.24/maxZ:1;
+    var caps={flotar:.14,pulso:.045,girar:6,desplazar:.10,balancear:6,trayectoria:.22};
+    art.capas.forEach(function(l){
+      l.z=Math.max(0,safeNumber(l.z,0))*scaleZ;
+      l.separacionZ=Math.max(-.025,Math.min(.025,safeNumber(l.separacionZ,0)));
+      var a=l.animacion;if(!a||a.activo===false||!Object.prototype.hasOwnProperty.call(caps,a.tipo))return;
+      if(a.tipo==='trayectoria'){
+        if(a.trayectoria)a.trayectoria.amplitud=Math.min(caps[a.tipo],Math.max(0,safeNumber(a.trayectoria.amplitud,0)));
+      }else a.amplitud=Math.min(caps[a.tipo],Math.max(0,safeNumber(a.amplitud,0)));
+      a.duracionMs=Math.max(2000,safeNumber(a.duracionMs,2500));
+    });
+    if(art.parallax&&art.parallax.activo)art.parallax.intensidad=Math.min(.15,Math.max(0,safeNumber(art.parallax.intensidad,.15)));
+    $('arOptimizationReport').dataset.artId='';
+    render();persistQuiet();
+    note('Estabilización aplicada al cuadro seleccionado. Conserva sus animaciones. Puedes deshacer y debes exportar/publicar para actualizar el visor.');
+    try{await auditSelectedOptimization(art);}catch(err){note('Estabilización guardada; no se pudo completar la comprobación: '+err.message);}
   });
   $('arOptimizationFix').addEventListener('click',async function(){
     var art=article();if(!art)return;
